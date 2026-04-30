@@ -10,7 +10,8 @@
     "dev:debug": "tsc && tsc -p tsconfig.renderer.json && .\\node_modules\\.bin\\electron .",
     "build": "tsc && tsc -p tsconfig.renderer.json",
     "pack": "tsc && tsc -p tsconfig.renderer.json && electron-builder --dir",
-    "dist": "tsc && tsc -p tsconfig.renderer.json && electron-builder"
+    "dist": "tsc && tsc -p tsconfig.renderer.json && electron-builder",
+    "push": "git add . && git commit -m \"Auto-update\" && git push"
   },
   "build": {
     "appId": "com.dpi.dashboard",
