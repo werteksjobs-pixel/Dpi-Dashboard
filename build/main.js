@@ -47,12 +47,17 @@ if (!gotTheLock) {
     electron_1.app.quit();
 }
 else {
-    electron_1.app.on('second-instance', () => {
+    electron_1.app.on('second-instance', (event, commandLine, workingDirectory) => {
+        console.log('Second instance detected. Focus triggered.');
         if (mainWindow) {
             if (mainWindow.isMinimized())
                 mainWindow.restore();
-            mainWindow.show();
+            if (!mainWindow.isVisible())
+                mainWindow.show();
             mainWindow.focus();
+            // Дополнительно для Windows: выводим на передний план
+            mainWindow.setAlwaysOnTop(true);
+            setTimeout(() => mainWindow?.setAlwaysOnTop(false), 200);
         }
     });
 }
@@ -165,10 +170,10 @@ async function setupTray() {
             { label: 'Выход', click: () => { isQuitting = true; electron_1.app.quit(); } }
         ]);
         tray.setToolTip('DPI Dashboard');
-        tray.setContextMenu(contextMenu);
         tray.on('double-click', () => {
             mainWindow?.show();
         });
+        tray.setContextMenu(contextMenu);
     }
     catch (e) {
         console.error('Tray setup failed:', e);
@@ -386,8 +391,13 @@ electron_1.app.whenReady().then(async () => {
         },
     });
     mainWindow.once('ready-to-show', () => {
-        if (!isPackaged || !appSettings.minimized) {
+        const startMinimized = process.argv.includes('--minimized') || appSettings.minimized;
+        // Если запущено вручную (нет флага и нет настройки) или просто всегда показываем для надежности
+        if (!startMinimized) {
             mainWindow?.show();
+        }
+        else {
+            console.log('App started in minimized mode (to tray).');
         }
     });
     mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -473,6 +483,7 @@ electron_1.app.whenReady().then(async () => {
             electron_1.app.setLoginItemSettings({
                 openAtLogin: settings.autostart,
                 path: process.execPath,
+                args: ['--minimized']
             });
         }
         catch (e) {

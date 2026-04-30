@@ -1,6 +1,6 @@
 {
   "name": "dpi-dashboard",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "All-in-One networking utility — Zapret & TG Proxy Manager",
   "author": "Max",
   "main": "build/main.js",
@@ -44,6 +44,7 @@
       "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
+      "runAfterFinish": false,
       "shortcutName": "DPI Dashboard",
       "artifactName": "${productName} Setup ${version}.${ext}",
       "uninstallDisplayName": "DPI Dashboard",
