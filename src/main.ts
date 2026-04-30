@@ -588,7 +588,7 @@ app.whenReady().then(async () => {
   });
 
   // ── Strategy Auto-Scanner ─────────────────────────────────────
-  const STRATEGIES = ['alt3', 'fake-tls', 'alt', 'alt1', 'alt2', 'alt4', 'alt5', 'alt6', 'alt7', 'alt8', 'alt9', 'alt10', 'alt11'];
+  const STRATEGIES = ['fake-tls-pro', 'alt3', 'fake-tls', 'alt', 'alt1', 'alt2', 'alt4', 'alt5', 'alt6', 'alt7', 'alt8', 'alt9', 'alt10', 'alt11'];
 
   /** Читаем ВСЕ домены из list-general.txt */
   function getProbeHosts(): string[] {
@@ -709,6 +709,7 @@ app.whenReady().then(async () => {
       case 'alt8':   args.push('--dpi-desync=fake,syndata','--dpi-desync-repeats=6','--dpi-desync-fooling=md5sig',`--dpi-desync-fake-tls=${tlsPath}`); break;
       case 'alt9':   args.push('--dpi-desync=syndata','--dpi-desync-split-seqovl=1','--dpi-desync-split-tls=sniext'); break;
       case 'alt10':  args.push('--dpi-desync=fake,disorder','--dpi-desync-repeats=6','--dpi-desync-fooling=badseq','--dpi-desync-badseq-increment=1000',`--dpi-desync-fake-tls=${tlsPath}`); break;
+      case 'fake-tls-pro': args.push('--dpi-desync=fake,split2', '--dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com', '--dpi-desync-fooling=ts', '--dpi-desync-repeats=6', `--dpi-desync-fake-tls=${tlsPath}`); break;
       case 'alt11':  args.push('--dpi-desync=fake,split2','--dpi-desync-repeats=12','--dpi-desync-fooling=md5sig',`--dpi-desync-fake-tls=${tlsPath}`); break;
       default:       args.push('--dpi-desync=fake,split2','--dpi-desync-repeats=6','--dpi-desync-fooling=md5sig',`--dpi-desync-fake-tls=${tlsPath}`); break;
     }
