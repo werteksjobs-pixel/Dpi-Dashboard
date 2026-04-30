@@ -148,25 +148,7 @@ async function setupTray() {
             : path.join(electron_1.app.getAppPath(), 'assets', 'icons', 'electron.ico');
         let icon;
         if (fs.existsSync(iconPath)) {
-            const rawIcon = electron_1.nativeImage.createFromPath(iconPath);
-            // Уменьшаем до стандартного размера трея (16x16) для четкости
-            const size = 16;
-            const resized = rawIcon.resize({ width: size, height: size });
-            // Делаем иконку круглой
-            const bitmap = resized.getBitmap();
-            const radius = size / 2;
-            for (let y = 0; y < size; y++) {
-                for (let x = 0; x < size; x++) {
-                    const dx = x - radius + 0.5;
-                    const dy = y - radius + 0.5;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance > radius) {
-                        const offset = (y * size + x) * 4;
-                        bitmap[offset + 3] = 0; // Alpha = 0
-                    }
-                }
-            }
-            icon = electron_1.nativeImage.createFromBuffer(bitmap, { width: size, height: size });
+            icon = electron_1.nativeImage.createFromPath(iconPath);
         }
         else {
             icon = electron_1.nativeImage.createEmpty();
