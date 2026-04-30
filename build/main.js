@@ -143,15 +143,19 @@ function attachHandlers(proc, id) {
 // --- Tray ---
 async function setupTray() {
     try {
+        // В packaged-режиме иконка лежит в extraResources (рядом с app.asar, не внутри)
+        // В dev-режиме — в папке проекта
         const iconPath = isPackaged
-            ? path.join(process.resourcesPath, 'assets', 'icons', 'electron.ico')
+            ? path.join(process.resourcesPath, 'electron.ico')
             : path.join(electron_1.app.getAppPath(), 'assets', 'icons', 'electron.ico');
         let icon;
         if (fs.existsSync(iconPath)) {
             icon = electron_1.nativeImage.createFromPath(iconPath);
         }
         else {
-            icon = electron_1.nativeImage.createEmpty();
+            // Fallback: попробуем найти в asar
+            const fallback = path.join(electron_1.app.getAppPath(), 'assets', 'icons', 'electron.ico');
+            icon = fs.existsSync(fallback) ? electron_1.nativeImage.createFromPath(fallback) : electron_1.nativeImage.createEmpty();
         }
         tray = new electron_1.Tray(icon);
         const contextMenu = electron_1.Menu.buildFromTemplate([
@@ -242,6 +246,9 @@ function startZapret(config) {
             break;
         case 'alt11':
             args.push('--dpi-desync=fake,split2', '--dpi-desync-repeats=12', '--dpi-desync-fooling=md5sig', `--dpi-desync-fake-tls=${tlsPath}`);
+            break;
+        case 'fake-tls-pro':
+            args.push('--dpi-desync=fake,split2', '--dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com', '--dpi-desync-fooling=ts', '--dpi-desync-repeats=6', `--dpi-desync-fake-tls=${tlsPath}`);
             break;
         case 'fake-tls':
         default:
