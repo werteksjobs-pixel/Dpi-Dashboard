@@ -422,6 +422,14 @@ electron_1.app.whenReady().then(async () => {
     electron_updater_1.autoUpdater.on('update-not-available', () => {
         mainWindow?.webContents.send('update-status', 'latest');
     });
+    electron_updater_1.autoUpdater.on('download-progress', (progressObj) => {
+        if (mainWindow) {
+            mainWindow.webContents.send('log', {
+                id: 'zapret',
+                data: `[System] Скачивание обновления: ${Math.round(progressObj.percent)}% (${Math.round(progressObj.transferred / 1024 / 1024)} МБ из ${Math.round(progressObj.total / 1024 / 1024)} МБ)\n`
+            });
+        }
+    });
     electron_updater_1.autoUpdater.on('update-downloaded', () => {
         mainWindow?.webContents.send('update-status', 'downloaded');
         if (mainWindow) {

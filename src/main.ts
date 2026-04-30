@@ -139,15 +139,19 @@ function attachHandlers(proc: ChildProcess, id: 'zapret' | 'tgproxy'): void {
 // --- Tray ---
 async function setupTray() {
   try {
-    const iconPath = isPackaged 
-      ? path.join(process.resourcesPath, 'assets', 'icons', 'electron.ico')
+    // В packaged-режиме иконка лежит в extraResources (рядом с app.asar, не внутри)
+    // В dev-режиме — в папке проекта
+    const iconPath = isPackaged
+      ? path.join(process.resourcesPath, 'electron.ico')
       : path.join(app.getAppPath(), 'assets', 'icons', 'electron.ico');
     
     let icon;
     if (fs.existsSync(iconPath)) {
       icon = nativeImage.createFromPath(iconPath);
     } else {
-      icon = nativeImage.createEmpty();
+      // Fallback: попробуем найти в asar
+      const fallback = path.join(app.getAppPath(), 'assets', 'icons', 'electron.ico');
+      icon = fs.existsSync(fallback) ? nativeImage.createFromPath(fallback) : nativeImage.createEmpty();
     }
 
     tray = new Tray(icon);
