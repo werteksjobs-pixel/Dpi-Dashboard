@@ -1,0 +1,3656 @@
+[
+  {
+    "id": "chatgpt---sora--openai-",
+    "name": "ChatGPT & Sora (OpenAI)",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "chatgpt.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "chatgpt.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ab.chatgpt.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ab.chatgpt.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "android.chat.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "android.chat.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "arena.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "arena.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "auth.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "auth.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "auth0.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "auth0.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "beta.api.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "beta.api.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "beta.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "beta.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "blog.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "blog.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cdn.auth0.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cdn.auth0.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cdn.oaistatic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cdn.oaistatic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cdn.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cdn.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "chat.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "chat.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "community.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "community.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "contest.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "contest.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "d.docs.live.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "d.docs.live.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "debate-game.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "debate-game.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "discuss.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "discuss.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "files.oaiusercontent.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "files.oaiusercontent.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "gpt3-openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "gpt3-openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "gym.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "gym.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "help.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "help.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ios.chat.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ios.chat.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jukebox.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jukebox.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "labs.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "labs.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "microscope.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "microscope.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "mobile.events.data.microsoft.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "mobile.events.data.microsoft.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "oaistatic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "oaistatic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "operator.chatgpt.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "operator.chatgpt.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "platform.api.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "platform.api.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "platform.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "platform.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sora.chatgpt.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sora.chatgpt.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sora.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sora.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "spinningup.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "spinningup.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "tcr9i.chat.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "tcr9i.chat.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "universe.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "universe.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "videos.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "videos.openai.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "webrtc.chatgpt.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "webrtc.chatgpt.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.chatgpt.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.chatgpt.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.openai.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.openai.com"
+      }
+    ]
+  },
+  {
+    "id": "chess",
+    "name": "Chess",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "assets-configurator.chess.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "assets-configurator.chess.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "chess.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "chess.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.chess.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.chess.com"
+      }
+    ]
+  },
+  {
+    "id": "claude",
+    "name": "Claude",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "a-api.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "a-api.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "a-cdn.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "a-cdn.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.claude.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.claude.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.console.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.console.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "auth.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "auth.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "claude.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "claude.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "console.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "console.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "s-cdn.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "s-cdn.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "statsig.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "statsig.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "status.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "status.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "support.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "support.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.anthropic.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.anthropic.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.claude.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.claude.ai"
+      }
+    ]
+  },
+  {
+    "id": "deepl",
+    "name": "DeepL",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "api-free.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api-free.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "auth.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "auth.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "backend.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "backend.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "checkout.www.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "checkout.www.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "clearance.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "clearance.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "community-auth.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "community-auth.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "developers.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "developers.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dict-audio.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dict-audio.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dict.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dict.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "errortracking.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "errortracking.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "experimentation-grpc.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "experimentation-grpc.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "experimentation.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "experimentation.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "gtm.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "gtm.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "home.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "home.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "hs.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "hs.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "internal.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "internal.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ita-free.app.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ita-free.app.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ita-free.www.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ita-free.www.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jobs.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jobs.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "login-wall.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "login-wall.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "oneshot-free.www.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "oneshot-free.www.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ott.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ott.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "s.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "s.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "shield.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "shield.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sl.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sl.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "static.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "static.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "support.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "support.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "w.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "w.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "write-free.www.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "write-free.www.deepl.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.deepl.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.deepl.com"
+      }
+    ]
+  },
+  {
+    "id": "deezer",
+    "name": "Deezer",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "aaa.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "aaa.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "account.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "account.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "activation.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "activation.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "affiliate.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "affiliate.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ansync.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ansync.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api-websub.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api-websub.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "auth.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "auth.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "backstage.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "backstage.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "bo-partners.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "bo-partners.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "bo-playlist.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "bo-playlist.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "connect.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "connect.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "creators.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "creators.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "creatorsupport.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "creatorsupport.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "curl-prod.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "curl-prod.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dalida.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dalida.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dataconnect.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dataconnect.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dev-gcast.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dev-gcast.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "discovery.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "discovery.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "drp-auth.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "drp-auth.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "games-servers.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "games-servers.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "games.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "games.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "gcast.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "gcast.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "handshake.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "handshake.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "hhe.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "hhe.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "homepod.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "homepod.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "images.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "images.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "inward.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "inward.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jobs.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jobs.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "m.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "m.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "media.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "media.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "mydeezerstory.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "mydeezerstory.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "mydeezeryear.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "mydeezeryear.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "oauth.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "oauth.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "papi.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "papi.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "partners.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "partners.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "pay.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "pay.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "payment.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "payment.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "pipe.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "pipe.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "platform.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "platform.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "plumbers.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "plumbers.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "podcasters.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "podcasters.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "preprod-preview.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "preprod-preview.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "preprod-stream.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "preprod-stream.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "preview.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "preview.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "queue.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "queue.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "research.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "research.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "shaker.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "shaker.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sonos-queue-bridge.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sonos-queue-bridge.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "spleeterpro.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "spleeterpro.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "stream.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "stream.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "support.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "support.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "tv2.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "tv2.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "vdp.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "vdp.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "webviews.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "webviews.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "weight-images.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "weight-images.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "wellbeing.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "wellbeing.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "widget.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "widget.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ws.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ws.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.deezer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "zen.deezer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "zen.deezer.com"
+      }
+    ]
+  },
+  {
+    "id": "dell",
+    "name": "Dell",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "afcs.dellcdn.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "afcs.dellcdn.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dds.dell.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dds.dell.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dell.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dell.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "i.dell.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "i.dell.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "nexus.dell.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "nexus.dell.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.dell.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.dell.com"
+      }
+    ]
+  },
+  {
+    "id": "dyson",
+    "name": "Dyson",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.dyson.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.dyson.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.dyson.de"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.dyson.de"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.dyson.se"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.dyson.se"
+      }
+    ]
+  },
+  {
+    "id": "elevenlabs",
+    "name": "ElevenLabs",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.us.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.us.elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "eleven-public-cdn.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "eleven-public-cdn.elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "elevenreader.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "elevenreader.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "help.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "help.elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "payload.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "payload.elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "try.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "try.elevenlabs.io"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.elevenlabs.io"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.elevenlabs.io"
+      }
+    ]
+  },
+  {
+    "id": "elgato",
+    "name": "Elgato",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.elgato.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.elgato.com"
+      }
+    ]
+  },
+  {
+    "id": "fitbit",
+    "name": "Fitbit",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.fitbit.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.fitbit.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "fitbit-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "fitbit-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "fitbit.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "fitbit.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "fitbitvestibuleshim-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "fitbitvestibuleshim-pa.googleapis.com"
+      }
+    ]
+  },
+  {
+    "id": "fmhy",
+    "name": "FMHY",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "a-lemmy.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "a-lemmy.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cat.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cat.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dynmap.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dynmap.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "fmhy.lol"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "fmhy.lol"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "guides.fmhy.lol"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "guides.fmhy.lol"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "i.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "i.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "lemmy.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "lemmy.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "m-lemmy.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "m-lemmy.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "old-lemmy.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "old-lemmy.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "old.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "old.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "old.lemmy.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "old.lemmy.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "op.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "op.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "p-lemmy.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "p-lemmy.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "paste.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "paste.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "pastes.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "pastes.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "redlib.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "redlib.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "searx.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "searx.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "stats.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "stats.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "status.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "status.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sub.whoogle.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sub.whoogle.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ui.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ui.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "whoogle.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "whoogle.fmhy.net"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.fmhy.lol"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.fmhy.lol"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.fmhy.net"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.fmhy.net"
+      }
+    ]
+  },
+  {
+    "id": "framer",
+    "name": "Framer",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "framer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "framer.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.framer.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.framer.com"
+      }
+    ]
+  },
+  {
+    "id": "google-ai",
+    "name": "Google AI",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "ai.google.dev"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ai.google.dev"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "aisandbox-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "aisandbox-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "aistudio.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "aistudio.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "aitestkitchen.withgoogle.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "aitestkitchen.withgoogle.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "alkalicore-pa.clients6.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "alkalicore-pa.clients6.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "alkalimakersuite-pa.clients6.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "alkalimakersuite-pa.clients6.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "apis.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "apis.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "appcatalyst.pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "appcatalyst.pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "assistant-s3-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "assistant-s3-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "bard.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "bard.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "deepmind.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "deepmind.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "deepmind.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "deepmind.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "developerprofiles-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "developerprofiles-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "geller-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "geller-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "gemini.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "gemini.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "gemini.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "gemini.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "generativeai.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "generativeai.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "generativelanguage.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "generativelanguage.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jules.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jules.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jules.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jules.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "labs.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "labs.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "labs.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "labs.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "lookerstudio.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "lookerstudio.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "makersuite.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "makersuite.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "notebooklm.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "notebooklm.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "notebooklm.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "notebooklm.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "notebooklm-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "notebooklm-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "o.pki.goog"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "o.pki.goog"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "opal.google"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "opal.google"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "opal.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "opal.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "opal.withgoogle.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "opal.withgoogle.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "people-pa.clients6.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "people-pa.clients6.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "proactivebackend-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "proactivebackend-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "robinfrontend-pa.googleapis.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "robinfrontend-pa.googleapis.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "signaler-pa.clients6.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "signaler-pa.clients6.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "stitch.withgoogle.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "stitch.withgoogle.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "suggestqueries.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "suggestqueries.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "waa-pa.clients6.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "waa-pa.clients6.google.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "webchannel-alkalimakersuite-pa.clients6.google.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "webchannel-alkalimakersuite-pa.clients6.google.com"
+      }
+    ]
+  },
+  {
+    "id": "grok",
+    "name": "Grok",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "accounts.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "accounts.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "asia-south1-livekit.grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "asia-south1-livekit.grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "assets.grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "assets.grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "assets.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "assets.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "console.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "console.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "data.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "data.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "deferred-chat.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "deferred-chat.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "docs.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "docs.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "eu-west-1.api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "eu-west-1.api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "grok.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "grok.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "imgen.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "imgen.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jf.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jf.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "livekit.grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "livekit.grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "login.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "login.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ssff.grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ssff.grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "status.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "status.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "transcription.grok-v2.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "transcription.grok-v2.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "trust.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "trust.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "typeahead.grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "typeahead.grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "us-east-1.api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "us-east-1.api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "us-east-4-raw.api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "us-east-4-raw.api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "us-south-1-pltr.api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "us-south-1-pltr.api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "us-west-1.api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "us-west-1.api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "us-west-1-raw.api.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "us-west-1-raw.api.x.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.grok.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.grok.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.x.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.x.ai"
+      }
+    ]
+  },
+  {
+    "id": "guidedhacking",
+    "name": "Guidedhacking",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "guidedhacking.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "guidedhacking.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.guidedhacking.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.guidedhacking.com"
+      }
+    ]
+  },
+  {
+    "id": "guilded",
+    "name": "Guilded",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "guilded.gg"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "guilded.gg"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.guilded.gg"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.guilded.gg"
+      }
+    ]
+  },
+  {
+    "id": "imgur",
+    "name": "Imgur",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.imgur.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.imgur.com"
+      }
+    ]
+  },
+  {
+    "id": "intel",
+    "name": "Intel",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "intel.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "intel.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.intel.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.intel.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "geolocation.onetrust.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "geolocation.onetrust.com"
+      }
+    ]
+  },
+  {
+    "id": "jetbrains",
+    "name": "JetBrains",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "academy.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "academy.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "account.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "account.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "adobe.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "adobe.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "amazon.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "amazon.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ap-help.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ap-help.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api-test.sandbox-resellers.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api-test.sandbox-resellers.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.jetbrains.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.jetbrains.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "autoconfig.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "autoconfig.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "autodiscover.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "autodiscover.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "awsproxy.pkg-cdn.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "awsproxy.pkg-cdn.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "blog.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "blog.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "blogs.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "blogs.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "byid.eu-1.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "byid.eu-1.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "byid.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "byid.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ca.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ca.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cai.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cai.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cdn.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cdn.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cloudconfig.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cloudconfig.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "cloudfront.pkg-cdn.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "cloudfront.pkg-cdn.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "code-with-me.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "code-with-me.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "code2art.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "code2art.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "codewithme-lobby-production.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "codewithme-lobby-production.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "codewithme-lobby-staging.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "codewithme-lobby-staging.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "codewithme-lobby.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "codewithme-lobby.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "codewithme-relay-europe-north1-1.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "codewithme-relay-europe-north1-1.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "codewithme-relay-europe-north1-2.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "codewithme-relay-europe-north1-2.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "comments.blog.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "comments.blog.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "configr.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "configr.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "confluence.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "confluence.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "corona.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "corona.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "data.services.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "data.services.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "datalore-forum.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "datalore-forum.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "datalore.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "datalore.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dc.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dc.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dotcover-support.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dotcover-support.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dotmemory-support.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dotmemory-support.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dotnet-ea.services.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dotnet-ea.services.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dotpeek-support.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dotpeek-support.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dottrace-support.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dottrace-support.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "download-cdn.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "download-cdn.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "downloads.marketplace.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "downloads.marketplace.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "dunnhumby.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "dunnhumby.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ea.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ea.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "eap.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "eap.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "element.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "element.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "employee-guides.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "employee-guides.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "eu-1.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "eu-1.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "fleet-relay.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "fleet-relay.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "geo2.datalore.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "geo2.datalore.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "guide.master-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "guide.master-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "guide.staging-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "guide.staging-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "hacktoberfest2020.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "hacktoberfest2020.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "handle.prod.csat.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "handle.prod.csat.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "handle.staging.csat.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "handle.staging.csat.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "hello.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "hello.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "hub.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "hub.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ij-perf.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ij-perf.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "index-cdn.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "index-cdn.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "int.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "int.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "internship.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "internship.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jb-team.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jb-team.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jbstats.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jbstats.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jetarchive.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jetarchive.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "jetpeople.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "jetpeople.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "justtoplay.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "justtoplay.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "local.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "local.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "lp.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "lp.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "lservice.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "lservice.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "mail.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "mail.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "marketplace.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "marketplace.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "maven.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "maven.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "maven.pkg.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "maven.pkg.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "merchandise.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "merchandise.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "mkto-mailer.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "mkto-mailer.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "mta-sts.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "mta-sts.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "myjetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "myjetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ngenix.assets.service.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ngenix.assets.service.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "oauth.account.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "oauth.account.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "oauth.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "oauth.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "oauth2-proxy-api.api.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "oauth2-proxy-api.api.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "onboard.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "onboard.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "package-search.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "package-search.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "package-search.services.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "package-search.services.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "pkg-cdn.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "pkg-cdn.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "pkg.eu-1.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "pkg.eu-1.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "plugins.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "plugins.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "registry.eu-1.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "registry.eu-1.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "registry.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "registry.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "renew-your-ssl-certificate.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "renew-your-ssl-certificate.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "resharper-plugins.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "resharper-plugins.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "resources.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "resources.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ruhlaender.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ruhlaender.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sales.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sales.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "skyscanner.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "skyscanner.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "slack-bdt.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "slack-bdt.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "slack-mps.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "slack-mps.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "slack.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "slack.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "space-cdn.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "space-cdn.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "spotify.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "spotify.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "stackexchange.master-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "stackexchange.master-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "stackexchange.staging-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "stackexchange.staging-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "staging.zdviewcount.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "staging.zdviewcount.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "support.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "support.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sv.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sv.fls.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "swu-acm.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "swu-acm.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "teamcity-support.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "teamcity-support.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "teamcity.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "teamcity.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "tiles.datalore.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "tiles.datalore.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "tiles2.datalore.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "tiles2.datalore.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "uploads.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "uploads.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "uploads.services.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "uploads.services.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "upsource.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "upsource.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "view.datalore.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "view.datalore.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "walx.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "walx.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.jetbrains.space"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.jetbrains.space"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "youtrack.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "youtrack.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "youtube.master-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "youtube.master-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "youtube.staging-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "youtube.staging-zdchint.mau.jetbrains.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "zillow.fls.jetbrains.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "zillow.fls.jetbrains.com"
+      }
+    ]
+  },
+  {
+    "id": "linear-app",
+    "name": "Linear.app",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "client-api.linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "client-api.linear.app"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "constellation.linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "constellation.linear.app"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "linear.app"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "public.linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "public.linear.app"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "s.linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "s.linear.app"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "static.linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "static.linear.app"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "uploads.linear.app"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "uploads.linear.app"
+      }
+    ]
+  },
+  {
+    "id": "make",
+    "name": "Make",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "make.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "make.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.make.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.make.com"
+      }
+    ]
+  },
+  {
+    "id": "manus",
+    "name": "Manus",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "api.manus.im"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "api.manus.im"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "manus.im"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "manus.im"
+      }
+    ]
+  },
+  {
+    "id": "meta-ai",
+    "name": "Meta AI",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "meta.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "meta.ai"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "www.meta.ai"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "www.meta.ai"
+      }
+    ]
+  },
+  {
+    "id": "microsoft--copilot--designer--xbox-",
+    "name": "Microsoft (Copilot, Designer, Xbox)",
+    "entries": [
+      {
+        "ip": "45.155.204.190",
+        "domain": "copilot.microsoft.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "copilot.microsoft.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "designer.microsoft.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "designer.microsoft.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "designerapp.officeapps.live.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "designerapp.officeapps.live.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "edgeservices.bing.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "edgeservices.bing.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "ecs.office.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "ecs.office.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "rewards.bing.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "rewards.bing.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "sydney.bing.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "sydney.bing.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "xboxdesignlab.xbox.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "xboxdesignlab.xbox.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "xgpuweb.gssv-play-prod.xboxlive.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "xgpuweb.gssv-play-prod.xboxlive.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "xgpuwebf2p.gssv-play-prod.xboxlive.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "xgpuwebf2p.gssv-play-prod.xboxlive.com"
+      },
+      {
+        "ip": "45.155.204.190",
+        "domain": "xsts.auth.xboxlive.com"
+      },
+      {
+        "ip": "95.182.120.241",
+        "domain": "xsts.auth.xboxlive.com"
+      }
+    ]
+  },
+  {
+    "id": "telegram",
+    "name": "Telegram",
+    "entries": [
+      {
+        "ip": "149.154.167.220",
+        "domain": "zws4.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "vesta.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "vesta-1.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "venus-1.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "telegram.me"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "telegram.dog"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "telegram.space"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "telesco.pe"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "tg.dev"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "t.me"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "api.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "td.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "venus.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "kws2-1.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "kws2.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "kws4-1.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "kws4.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "zws2-1.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "zws2.web.telegram.org"
+      },
+      {
+        "ip": "149.154.167.220",
+        "domain": "zws4-1.web.telegram.org"
+      }
+    ]
+  }
+]

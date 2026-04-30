@@ -1,0 +1,67 @@
+{
+  "name": "dpi-dashboard",
+  "version": "1.0.0",
+  "description": "All-in-One networking utility — Zapret & TG Proxy Manager",
+  "author": "Max",
+  "main": "build/main.js",
+  "scripts": {
+    "dev": "tsc && tsc -p tsconfig.renderer.json && electron .",
+    "dev:admin": "tsc && tsc -p tsconfig.renderer.json && powershell -Command \"Start-Process cmd -ArgumentList '/c cd /d %cd% && .\\node_modules\\.bin\\electron .' -Verb RunAs -WindowStyle Hidden\"",
+    "dev:debug": "tsc && tsc -p tsconfig.renderer.json && .\\node_modules\\.bin\\electron .",
+    "build": "tsc && tsc -p tsconfig.renderer.json",
+    "pack": "tsc && tsc -p tsconfig.renderer.json && electron-builder --dir",
+    "dist": "tsc && tsc -p tsconfig.renderer.json && electron-builder"
+  },
+  "build": {
+    "appId": "com.dpi.dashboard",
+    "productName": "DPI Dashboard",
+    "copyright": "Copyright © 2024",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "werteksjobs-pixel",
+        "repo": "Dpi-Dashboard"
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icons/electron.ico",
+      "requestedExecutionLevel": "requireAdministrator",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DPI Dashboard",
+      "artifactName": "${productName} Setup ${version}.${ext}",
+      "uninstallDisplayName": "DPI Dashboard",
+      "installerIcon": "assets/icons/electron.ico",
+      "uninstallerIcon": "assets/icons/electron.ico",
+      "installerHeaderIcon": "assets/icons/electron.ico"
+    },
+    "files": [
+      "build/**/*",
+      "assets/**/*",
+      "index.html",
+      "bin/**/*",
+      "lists/**/*"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.0",
+    "typescript": "^5.4.5"
+  }
+}

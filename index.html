@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;" />
+  <title>DPI Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Splash Screen ──────────────────────────────────────────────── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #020617;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 24px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-logo {
+      position: relative; width: 90px; height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .splash-logo-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 0 40px rgba(59,130,246,0.5);
+      animation: splash-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .splash-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 2px solid rgba(59,130,246,0.3);
+      animation: splash-pulse 1.8s ease-out infinite;
+    }
+    .splash-ring:nth-child(2) { animation-delay: 0.6s; }
+    .splash-ring:nth-child(3) { animation-delay: 1.2s; }
+    @keyframes splash-pulse {
+      0%   { transform: scale(0.8); opacity: 0.8; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    @keyframes splash-pop {
+      0%   { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .splash-title {
+      font-family: 'Inter', sans-serif; font-weight: 700;
+      font-size: 22px; color: #f8fafc; letter-spacing: 0.02em;
+      animation: splash-fadein 0.5s 0.3s both ease;
+    }
+    .splash-sub {
+      font-family: 'Inter', sans-serif; font-size: 12px;
+      color: #94a3b8; letter-spacing: 0.08em; text-transform: uppercase;
+      animation: splash-fadein 0.5s 0.5s both ease;
+    }
+    .splash-bar-wrap {
+      width: 180px; height: 3px; background: rgba(255,255,255,0.08);
+      border-radius: 4px; overflow: hidden;
+      animation: splash-fadein 0.5s 0.6s both ease;
+    }
+    .splash-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+      border-radius: 4px;
+      animation: splash-load 1.8s 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+    @keyframes splash-load {
+      0%   { width: 0%; }
+      60%  { width: 75%; }
+      100% { width: 100%; }
+    }
+    @keyframes splash-fadein {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* ── Reset & Variables ─────────────────────────────────────────── */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-base: #020617; 
+      --bg-card: rgba(30, 41, 59, 0.5); 
+      --bg-input: rgba(15, 23, 42, 0.6);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(59, 130, 246, 0.5);
+      --accent-blue: #3b82f6;
+      --accent-blue-gradient: linear-gradient(135deg, #3b82f6, #0ea5e9);
+      --accent-red-gradient: linear-gradient(135deg, #ef4444, #f43f5e);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-input: #ffffff;
+      --bg-titlebar: rgba(2, 6, 23, 0.8);
+      --bg-terminal: rgba(0, 0, 0, 0.4);
+      --bg-modal: #020617;
+      --bg-row: rgba(255,255,255,0.02);
+      --bg-row-hover: rgba(255,255,255,0.04);
+      --border-row: rgba(255,255,255,0.05);
+      --slider-bg: rgba(255,255,255,0.1);
+      --slider-knob: var(--text-secondary);
+      --radius: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.theme-light {
+      --bg-base: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-input: #f8fafc;
+      --border: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-input: #0f172a;
+      --bg-titlebar: #e2e8f0;
+      --bg-terminal: #e2e8f0;
+      --bg-modal: #ffffff;
+      --bg-row: #f8fafc;
+      --bg-row-hover: #f1f5f9;
+      --border-row: #e2e8f0;
+      --slider-bg: #cbd5e1;
+      --slider-knob: #ffffff;
+      background-image: none !important;
+    }
+
+    body.theme-gray {
+      --bg-base: #0f172a;
+      --bg-card: #1e293b;
+      --bg-input: #0f172a;
+      --border: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-input: #ffffff;
+      --bg-titlebar: #0f172a;
+      --bg-terminal: #0f172a;
+      --bg-modal: #1e293b;
+      --bg-row: #0f172a;
+      --bg-row-hover: #1e293b;
+      --border-row: #334155;
+      --slider-bg: #334155;
+      --slider-knob: #94a3b8;
+      background-image: none !important;
+    }
+
+    body {
+      background: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Custom Titlebar ───────────────────────────────────────────── */
+    .titlebar {
+      height: 40px;
+      background: var(--bg-titlebar);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px 0 20px;
+      -webkit-app-region: drag;
+      user-select: none;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .titlebar-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .titlebar-title::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      box-shadow: 0 0 8px var(--accent-blue);
+    }
+
+    .titlebar-controls {
+      display: flex;
+      gap: 4px;
+      -webkit-app-region: no-drag;
+    }
+
+    .titlebar-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .titlebar-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .titlebar-btn.btn-close:hover {
+      background: var(--accent-red-gradient);
+      color: #ffffff;
+    }
+
+    .content {
+      padding: 24px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-height: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Service Cards ──────────────────────────────────────────────── */
+    .cards-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    .service-card.card-zapret::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--accent-blue-gradient);
+      border-radius: 16px 0 0 16px;
+    }
+    .service-card.card-tg::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(180deg, #06b6d4, #3b82f6);
+      border-radius: 16px 0 0 16px;
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .card-active {
+      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.1), inset 0 0 20px rgba(16, 185, 129, 0.05);
+    }
+    .card-active::before {
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-primary);
+    }
+
+    .card-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .card-icon-blue { background: rgba(59, 130, 246, 0.15); }
+    .card-icon-green { background: rgba(16, 185, 129, 0.15); }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
+      background: rgba(255,255,255,0.05);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      text-transform: uppercase;
+    }
+    .status-badge.online {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+    }
+
+    /* ── Form Controls ────────────────────────────────────────────── */
+    .config-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .group-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.15em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .input-base {
+      background: var(--bg-input);
+      color: var(--text-input);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      transition: var(--transition);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .input-base:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    select.input-base {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    select.input-base option {
+      background: var(--bg-input);
+      color: var(--text-input);
+    }
+
+    /* Custom Checkboxes */
+    .checkbox-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 4px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      user-select: none;
+      transition: var(--transition);
+    }
+    
+    .check-item:hover {
+      color: var(--text-primary);
+    }
+
+    .check-item input {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 5px;
+      background: var(--bg-input);
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .check-item input:checked {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .check-item input:checked::after {
+      content: '✓';
+      position: absolute;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      left: 3px;
+      top: -1px;
+    }
+
+    /* ── Buttons ─────────────────────────────────────────────────── */
+    .toggle-btn {
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: auto;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .btn-start { 
+      background: var(--accent-blue-gradient); 
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255,255,255,0.2); 
+    }
+    .btn-start:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255,255,255,0.2); 
+      filter: brightness(1.1);
+    }
+    .btn-start:active {
+      transform: translateY(0);
+    }
+    
+    .btn-stop { 
+      background: var(--accent-red-gradient); 
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3), inset 0 1px 0 rgba(255,255,255,0.2); 
+    }
+    .btn-stop:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4), inset 0 1px 0 rgba(255,255,255,0.2); 
+      filter: brightness(1.1);
+    }
+
+    /* ── Log Terminal ────────────────────────────────────────────── */
+    .log-section {
+      flex: 1;
+      background: var(--bg-terminal);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+      box-shadow: inset 0 2px 15px rgba(0,0,0,0.5);
+    }
+
+    .log-header {
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .log-status-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+    }
+    .log-status-dot::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      box-shadow: 0 0 8px var(--accent-blue);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; box-shadow: 0 0 12px var(--accent-blue); }
+      100% { opacity: 0.6; }
+    }
+
+    #log-box {
+      flex: 1;
+      padding: 20px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-y: auto;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+    }
+
+    #log-box::-webkit-scrollbar { width: 8px; }
+    #log-box::-webkit-scrollbar-track { background: transparent; }
+    #log-box::-webkit-scrollbar-thumb { 
+      background: rgba(255,255,255,0.1); 
+      border-radius: 10px; 
+      border: 2px solid rgba(0,0,0,0.4);
+    }
+    #log-box::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+    .log-empty-msg {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .log-empty-msg svg {
+      width: 32px; height: 32px;
+      opacity: 0.5;
+    }
+
+    /* ── Settings Modal ────────────────────────────────────────────── */
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      border-radius: 6px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.1);
+      transform: rotate(90deg);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--bg-modal);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 460px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .modal-overlay.open .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-body::-webkit-scrollbar { width: 6px; }
+    .modal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .textarea-base {
+      width: 100%;
+      height: 80px;
+      resize: vertical;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    .config-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    /* ── Premium Settings Rows & Toggles ───────────────────────────── */
+    .setting-row {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: var(--bg-row);
+      border: 1px solid var(--border-row);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+    .setting-row:hover {
+      background: var(--bg-row-hover);
+      border-color: var(--border);
+    }
+    .setting-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-right: 16px;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.2);
+    }
+    .setting-icon img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .setting-info {
+      flex: 1;
+    }
+    .setting-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .setting-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* Switch Component */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      margin-left: 16px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0; width: 0; height: 0;
+    }
+    .slider {
+      position: absolute; cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--slider-bg);
+      transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      border-radius: 24px;
+      border: 1px solid transparent;
+    }
+    .slider:before {
+      position: absolute; content: "";
+      height: 18px; width: 18px;
+      left: 2px; bottom: 2px;
+      background-color: var(--slider-knob);
+      transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background: var(--accent-blue-gradient);
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    .check-item {
+      display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); cursor: pointer;
+    }
+
+    /* ── Hosts Manager ─────────────────────────────────────────── */
+    .hosts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .hosts-table th {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      padding: 0 8px 8px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .hosts-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--border-row);
+      color: var(--text-primary);
+      vertical-align: middle;
+    }
+    .hosts-table tr:last-child td { border-bottom: none; }
+    .hosts-table tr:hover td { background: var(--bg-row-hover); }
+    
+    .host-service-name {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .host-domain {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .host-ip-input {
+      background: var(--bg-input);
+      color: var(--text-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      width: 140px;
+      outline: none;
+    }
+    .host-ip-input:focus {
+      border-color: var(--accent-blue);
+    }
+    .hosts-add-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .hosts-footer-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-danger {
+      background: var(--accent-red-gradient);
+    }
+    .hosts-status {
+      font-size: 11px;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: none;
+    }
+    .hosts-status.ok { background: rgba(16,185,129,0.1); color: #10b981; display: block; }
+    .hosts-status.err { background: rgba(239,68,68,0.1); color: #ef4444; display: block; }
+
+    /* ── Strategy Scanner Modal ──────────────────────────────── */
+    .scan-modal-content {
+      width: 540px;
+    }
+    .scan-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .scan-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-row);
+      background: var(--bg-row);
+      transition: all 0.25s ease;
+      font-size: 13px;
+    }
+    .scan-row.active {
+      border-color: rgba(59,130,246,0.4);
+      background: rgba(59,130,246,0.06);
+      box-shadow: 0 0 12px rgba(59,130,246,0.1);
+    }
+    .scan-row.best {
+      border-color: rgba(16,185,129,0.5);
+      background: rgba(16,185,129,0.07);
+      box-shadow: 0 0 16px rgba(16,185,129,0.15);
+    }
+    .scan-strategy-name {
+      font-weight: 600;
+      min-width: 80px;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .scan-bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .scan-bar {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+    .scan-status-text {
+      min-width: 90px;
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .scan-spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent-blue);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .scan-icon { width: 16px; text-align: center; flex-shrink: 0; font-size: 15px; }
+    .scan-summary {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.25);
+      font-size: 13px;
+      color: var(--text-primary);
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+    .scan-summary.visible { display: flex; }
+    .scan-summary-text { flex: 1; line-height: 1.4; }
+    .scan-progress-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 4px 0 8px;
+    }
+    .scan-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg-row);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .scan-chip:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      background: rgba(59,130,246,0.08);
+    }
+    .scan-chip.active {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      background: rgba(59,130,246,0.12);
+      font-weight: 600;
+    }
+
+    /* ── Status Monitor ───────────────────────────────────── */
+    .status-monitor {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.15);
+      border-radius: 10px;
+      border: 1px solid var(--border-row);
+    }
+    .monitor-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .monitor-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.3s ease;
+    }
+    .monitor-dot.ok    { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.6); }
+    .monitor-dot.slow  { background: #eab308; box-shadow: 0 0 6px rgba(234,179,8,0.6); }
+    .monitor-dot.fail  { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
+    .monitor-dot.idle  { background: rgba(255,255,255,0.15); }
+    .monitor-latency {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+    .monitor-refresh-btn {
+      margin-left: auto;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: color 0.2s;
+    }
+    .monitor-refresh-btn:hover { color: var(--accent-blue); }
+    .monitor-refresh-btn.spinning svg { animation: spin 1s linear infinite; }
+
+    /* ── DNS Leak Modal ─────────────────────────────────── */
+    .dns-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-row);
+      background: var(--bg-row);
+      transition: border-color 0.25s;
+    }
+    .dns-row.ok            { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.04); }
+    .dns-row.dpi-blocked   { border-color: rgba(239,68,68,0.35);  background: rgba(239,68,68,0.04); }
+    .dns-row.dns-poisoned  { border-color: rgba(234,179,8,0.35);  background: rgba(234,179,8,0.04); }
+    .dns-row.fully-blocked { border-color: rgba(239,68,68,0.4);   background: rgba(239,68,68,0.06); }
+    .dns-icon  { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .dns-info  { flex: 1; min-width: 0; }
+    .dns-domain { font-weight: 600; font-size: 13px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; }
+    .dns-ips    { font-size: 11px; color: var(--text-secondary); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+    .dns-badge  { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
+    .dns-badge.ok           { background: rgba(16,185,129,0.15); color: #10b981; }
+    .dns-badge.dpi-blocked  { background: rgba(239,68,68,0.15);  color: #ef4444; }
+    .dns-badge.dns-poisoned { background: rgba(234,179,8,0.15);  color: #eab308; }
+    .dns-badge.fully-blocked{ background: rgba(239,68,68,0.2);   color: #ef4444; }
+    .dns-verdict {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+    }
+    .dns-verdict.visible { display: block; }
+    .dns-verdict.clean   { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); color: #10b981; }
+    .dns-verdict.leaking { background: rgba(239,68,68,0.08);  border: 1px solid rgba(239,68,68,0.3);  color: #ef4444; }
+  </style>
+</head>
+<body>
+
+<div class="titlebar">
+  <span class="titlebar-title">DPI Dashboard</span>
+  <div class="titlebar-controls">
+    <button class="titlebar-btn" id="btn-hosts" title="DNS / Hosts Редиректор" style="font-size: 12px;">🌐</button>
+    <button class="titlebar-btn" id="btn-app-settings" title="App Settings" style="font-size: 12px;">⚙️</button>
+    <button class="titlebar-btn" id="btn-minimize" title="Minimize">─</button>
+    <button class="titlebar-btn btn-close" id="btn-close" title="Close">✕</button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="cards-row">
+    <!-- Zapret Bypass Card -->
+    <div class="service-card card-zapret" id="zapret-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <div class="card-icon card-icon-blue">🛡️</div>
+          <div>
+            <div data-i18n="zapretTitle">Zapret Bypass</div>
+            <div data-i18n="zapretDesc" style="font-size: 11px; font-weight: 400; color: var(--text-secondary); margin-top: 1px;">DPI обход блокировок</div>
+          </div>
+          <button id="zapret-settings-btn" class="icon-btn" title="Advanced Settings" style="margin-left: auto; margin-right: -4px;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </button>
+        </h2>
+        <div class="status-badge" id="zapret-label">OFFLINE</div>
+      </div>
+
+      <div class="config-group">
+        <div class="group-label">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33A1.65 1.65 0 0014 19.4V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span data-i18n="zapretStrategyHeader">Стратегия обхода</span>
+        </div>
+        <select id="zapret-strategy" class="input-base">
+          <option value="alt3" selected>🔀 ALT 3 (Recommended)</option>
+          <option value="fake-tls">🔒 FAKE TLS</option>
+          <option value="alt">🔀 ALT</option>
+          <option value="alt1">🔀 ALT 1</option>
+          <option value="alt2">🔀 ALT 2</option>
+          <option value="alt4">🔀 ALT 4</option>
+          <option value="alt5">🔀 ALT 5</option>
+          <option value="alt6">🔀 ALT 6</option>
+          <option value="alt7">🔀 ALT 7</option>
+          <option value="alt8">🔀 ALT 8</option>
+          <option value="alt9">🔀 ALT 9</option>
+          <option value="alt10">🔀 ALT 10</option>
+          <option value="alt11">🔀 ALT 11</option>
+        </select>
+        <select id="zapret-filter-mode" class="input-base">
+          <option value="loaded" data-i18n="filterList">📄 Только по списку (Оптимально)</option>
+          <option value="any" data-i18n="filterAny">🌐 Весь трафик (Полный обход)</option>
+        </select>
+
+        <div class="checkbox-row">
+          <div class="check-item">
+            <label class="switch"><input type="checkbox" id="game-filter"><span class="slider"></span></label>
+            <span data-i18n="gamesMode">🎮 Игры</span>
+          </div>
+          <div class="check-item">
+            <label class="switch"><input type="checkbox" id="ipset-filter"><span class="slider"></span></label>
+            <span data-i18n="ipsetMode">📋 IPSet</span>
+          </div>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="group-label" style="margin-bottom: 6px; justify-content: space-between; display: flex; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              <span data-i18n="customArgsLabel">Свои аргументы</span>
+            </div>
+            <button class="icon-btn" id="btn-edit-args" title="Open Editor" style="color: var(--accent-blue);">
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+          </div>
+          <input type="text" id="zapret-custom-args" class="input-base" placeholder="--dpi-desync=fake ..." style="font-size: 11px; font-family: 'JetBrains Mono', monospace;" readonly>
+        </div>
+      </div>
+
+      <!-- Status Monitor -->
+      <div class="status-monitor" id="status-monitor">
+        <div class="monitor-item" id="monitor-placeholder" style="color: var(--text-secondary); font-size: 11px;" data-i18n="monitorPlaceholder">— Статус будет отображен при запуске Zapret</div>
+        <button class="monitor-refresh-btn" id="monitor-refresh-btn" title="Обновить" style="display:none;" data-i18n-title="btnRefresh">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" d="M1 4v6h6"/><path stroke-linecap="round" d="M23 20v-6h-6"/><path stroke-linecap="round" d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+        </button>
+      </div>
+
+      <button class="toggle-btn btn-start" id="zapret-toggle">▶ Запустить</button>
+    </div>
+
+    <!-- Telegram Proxy Card -->
+    <div class="service-card card-tg" id="tg-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <div class="card-icon card-icon-green">✈️</div>
+          <div>
+            <div data-i18n="tgTitle">Telegram Proxy</div>
+            <div data-i18n="tgDesc" style="font-size: 11px; font-weight: 400; color: var(--text-secondary); margin-top: 1px;">MTProto WebSocket мост</div>
+          </div>
+          <button id="tg-settings-btn" class="icon-btn" title="Advanced Settings" style="margin-left: auto; margin-right: -4px;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </button>
+        </h2>
+        <div class="status-badge" id="tg-label">OFFLINE</div>
+      </div>
+
+      <div class="config-group">
+        <div class="group-label">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          <span data-i18n="tgConnHeader">Параметры подключения</span>
+        </div>
+        <div class="control-row">
+          <span class="field-label" data-i18n="tgPortLabel">Порт:</span>
+          <input type="number" id="tg-port" class="input-base" value="1443">
+        </div>
+        <div class="control-row">
+          <span class="field-label" data-i18n="tgSecretLabel">Секрет:</span>
+          <input type="text" id="tg-secret" class="input-base" placeholder="Авто-генерация" data-i18n-placeholder="tgSecretPlaceholder">
+        </div>
+        <div class="check-item" style="margin-top: 5px;">
+          <label class="switch"><input type="checkbox" id="tg-fake-tls" checked><span class="slider"></span></label>
+          <span data-i18n="tgFakeTls">🔒 Fake TLS маскировка</span>
+        </div>
+      </div>
+
+      <button class="toggle-btn btn-start" id="tg-toggle">▶ Запустить</button>
+    </div>
+  </div>
+
+  <!-- Terminal Output -->
+  <div class="log-section">
+    <div class="log-header">
+      <span>Terminal Output</span>
+      <span class="log-status-dot">Ready</span>
+    </div>
+    <div id="log-box"></div>
+    <div class="log-empty-msg" id="log-empty">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M4 6h16M4 18h16"></path></svg>
+      Waiting for process logs...
+    </div>
+  </div>
+</div>
+
+<!-- Telegram Advanced Settings Modal -->
+<div class="modal-overlay" id="tg-modal">
+  <div class="modal-content" style="width: 480px;">
+    <div class="modal-header">
+      <div class="modal-title" data-i18n="tgModalTitle">Настройки TG Proxy</div>
+      <button class="icon-btn" id="tg-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- DC Section -->
+      <div class="config-group">
+        <div class="group-label" data-i18n="tgDcHeader">Датацентры Telegram (DC → IP)</div>
+        <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; margin-top: -8px;" data-i18n="tgDcDesc">По одному правилу на строку, формат: номер:IP</div>
+        <textarea id="tg-dc-ips" class="input-base textarea-base" style="height: 100px; font-family: 'JetBrains Mono', monospace;" spellcheck="false" placeholder="2:149.154.167.220
+4:149.154.167.220"></textarea>
+      </div>
+
+      <!-- Cloudflare Section -->
+      <div class="config-group">
+        <div class="group-label">Cloudflare Proxy</div>
+        <div class="checkbox-row" style="margin: 0; justify-content: flex-start; gap: 24px;">
+          <div class="check-item">
+            <label class="switch"><input type="checkbox" id="tg-cf-enable"><span class="slider"></span></label>
+            <span data-i18n="tgCfEnable">Включить CF-прокси</span>
+          </div>
+          <div class="check-item">
+            <label class="switch"><input type="checkbox" id="tg-cf-priority"><span class="slider"></span></label>
+            <span data-i18n="tgCfPriority">Приоритет</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+          <span class="field-label" data-i18n="tgCfDomainLabel" style="white-space: nowrap;">Свой домен</span>
+          <input type="text" id="tg-cf-domain" class="input-base" placeholder="domain.com" style="flex: 1;">
+        </div>
+      </div>
+
+      <!-- Perf Section -->
+      <div class="config-group">
+        <div class="group-label" data-i18n="tgPerfHeader">Логи и производительность</div>
+        <div class="check-item" style="margin-bottom: 4px;">
+          <label class="switch"><input type="checkbox" id="tg-log-verbose"><span class="slider"></span></label>
+          <span data-i18n="tgVerboseLabel">Подробное логирование (verbose)</span>
+        </div>
+        
+        <div style="display: flex; gap: 16px; align-items: flex-end;">
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+            <span class="field-label" data-i18n="tgBufLabel" style="font-size: 11px;">Буфер, КБ (256)</span>
+            <input type="number" id="tg-buf-kb" class="input-base" value="256" style="width: 100%;">
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+            <span class="field-label" data-i18n="tgPoolLabel" style="font-size: 11px;">Пул сессий (4)</span>
+            <input type="number" id="tg-pool-size" class="input-base" value="4" style="width: 100%;">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="toggle-btn" id="tg-modal-save" style="background: var(--accent-blue-gradient); padding: 10px 40px; font-size: 13px;" data-i18n="btnDone">Готово</button>
+    </div>
+  </div>
+</div>
+
+<!-- Zapret Advanced Settings Modal -->
+<div class="modal-overlay" id="zapret-modal">
+  <div class="modal-content" style="width: 450px;">
+    <div class="modal-header">
+      <div class="modal-title" data-i18n="zapretModalTitle">Настройки Zapret</div>
+      <button class="icon-btn" id="zapret-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      
+      <div class="group-label" data-i18n="zapretSystemHeader">Системные параметры</div>
+      
+      <div class="setting-row">
+        <div class="setting-icon"><img src="assets/icons/memory.png" alt="RAM Icon"></div>
+        <div class="setting-info">
+          <div class="setting-title" data-i18n="zapretMemTitle">Ограничение памяти (Payload)</div>
+          <div class="setting-desc" data-i18n="zapretMemDesc">Разбивает пакеты для решения проблем с загрузкой страниц.</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="zapret-memory-limit">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-row" id="btn-edit-list" style="cursor: pointer;">
+        <div class="setting-icon" style="display: flex; align-items: center; justify-content: center; background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </div>
+        <div class="setting-info">
+          <div class="setting-title" data-i18n="zapretListTitle">Свой список доменов</div>
+          <div class="setting-desc" data-i18n="zapretListDesc">Управление файлом list-general.txt для обхода.</div>
+        </div>
+        <div style="color: var(--text-secondary);">➔</div>
+      </div>
+
+      <div class="setting-row" id="btn-scan-strategy" style="cursor: pointer;">
+        <div class="setting-icon" style="display: flex; align-items: center; justify-content: center; background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/><path stroke-linecap="round" d="M11 8v6M8 11h6"/></svg>
+        </div>
+        <div class="setting-info">
+          <div class="setting-title" data-i18n="zapretScanTitle">🔍 Найти лучший обход</div>
+          <div class="setting-desc" data-i18n="zapretScanDesc">Автоматически перебирает все стратегии и проверяет связь.</div>
+        </div>
+        <div style="color: var(--text-secondary);">➔</div>
+      </div>
+
+      <div class="setting-row" id="btn-dns-leak" style="cursor: pointer;">
+        <div class="setting-icon" style="display: flex; align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.15); color: #10b981;">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M9 12l2 2 4-4"/><path stroke-linecap="round" d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+        </div>
+        <div class="setting-info">
+          <div class="setting-title" data-i18n="zapretDnsTitle">🧩 DNS Leak Test</div>
+          <div class="setting-desc" data-i18n="zapretDnsDesc">Проверяет DNS резолюцию и TCP доступность.</div>
+        </div>
+        <div style="color: var(--text-secondary);">➔</div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="toggle-btn" id="zapret-modal-save" style="background: var(--accent-blue-gradient); padding: 10px 40px; font-size: 13px;" data-i18n="btnDone">Готово</button>
+    </div>
+  </div>
+</div>
+
+<!-- DNS Leak Test Modal -->
+<div class="modal-overlay" id="dns-modal" style="z-index: 112;">
+  <div class="modal-content" style="width: 500px;">
+    <div class="modal-header">
+      <div class="modal-title">🧩 DNS Leak Test</div>
+      <button class="icon-btn" id="dns-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 16px 20px; gap: 8px;">
+      <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5;">
+        Проверяет <b style="color:var(--text-primary);">DNS резолюцию</b> и <b style="color:var(--text-primary);">TCP 443</b> доступность ключевых доменов. Помогает понять что блокирует провайдер — DNS или DPI.
+      </div>
+      <div id="dns-results-list" style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="text-align: center; padding: 24px; color: var(--text-secondary); font-size: 13px;">Нажмите «Запустить» для начала теста</div>
+      </div>
+      <div class="dns-verdict" id="dns-verdict"></div>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <div id="dns-running-label" style="font-size: 12px; color: var(--text-secondary); display:none;">
+        <div class="scan-spinner" style="display:inline-block; vertical-align:middle; margin-right:6px;"></div>Тестируем...
+      </div>
+      <div style="flex:1"></div>
+      <button class="toggle-btn btn-start" id="dns-run-btn" style="padding: 8px 20px; font-size: 13px; margin: 0;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Запустить
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- List Editor Modal -->
+<div class="modal-overlay" id="list-modal" style="z-index: 105;">
+  <div class="modal-content" style="width: 500px;">
+    <div class="modal-header">
+      <div class="modal-title">Редактор list-general.txt</div>
+      <button class="icon-btn" id="list-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 16px;">
+      <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;">
+        Каждый домен с новой строки. Поддомены включаются автоматически (например, если добавить google.com, то www.google.com тоже будет работать).
+      </div>
+      <textarea id="list-editor-textarea" class="input-base textarea-base" style="height: 300px; font-size: 12px; white-space: pre;" spellcheck="false"></textarea>
+      <div class="hosts-status" id="list-status"></div>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button class="toggle-btn btn-stop" id="list-modal-cancel" style="padding: 8px 16px; font-size: 12px; margin: 0; background: transparent; border: 1px solid var(--border); box-shadow: none;">Отмена</button>
+      <button class="toggle-btn btn-start" id="list-modal-save" style="padding: 8px 20px; font-size: 13px; margin: 0;">✔ Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Args Editor Modal -->
+<div class="modal-overlay" id="args-modal" style="z-index: 105;">
+  <div class="modal-content" style="width: 500px;">
+    <div class="modal-header">
+      <div class="modal-title" data-i18n="argsEditorTitle">Редактор аргументов Zapret</div>
+      <button class="icon-btn" id="args-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 16px;">
+      <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;" data-i18n="argsEditorDesc">
+        Введите дополнительные параметры для winws.exe. Каждый аргумент должен быть разделен пробелом или новой строкой.
+      </div>
+      <textarea id="args-editor-textarea" class="input-base textarea-base" style="height: 200px; font-size: 12px; font-family: 'JetBrains Mono', monospace;" spellcheck="false" placeholder="--dpi-desync=fake --dpi-desync-repeats=6 ..."></textarea>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button class="toggle-btn btn-stop" id="args-modal-cancel" style="padding: 8px 16px; font-size: 12px; margin: 0; background: transparent; border: 1px solid var(--border); box-shadow: none;" data-i18n="btnCancel">Отмена</button>
+      <button class="toggle-btn btn-start" id="args-modal-save" style="padding: 8px 20px; font-size: 13px; margin: 0;" data-i18n="btnSave">✔ Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- App Settings Modal -->
+<div class="modal-overlay" id="app-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Настройки Приложения</div>
+      <button class="icon-btn" id="app-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="config-section-title">Поведение</div>
+
+        <div class="setting-row">
+          <div class="setting-icon"><img src="assets/icons/autostart.png" alt="Rocket"></div>
+          <div class="setting-info">
+            <div class="setting-title">Автозапуск</div>
+            <div class="setting-desc">Запускать DPI Dashboard при входе в систему (Windows).</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="app-autostart">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon"><img src="assets/icons/tray.png" alt="Tray"></div>
+          <div class="setting-info">
+            <div class="setting-title">Запускать скрыто</div>
+            <div class="setting-desc">Сразу сворачивать в трей при запуске приложения.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="app-start-minimized">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+      </div>
+      <div style="margin-top: 10px;">
+        <div class="config-section-title">Внешний вид</div>
+
+        <div class="setting-row">
+          <div class="setting-icon"><img src="assets/icons/theme.png" alt="Theme"></div>
+          <div class="setting-info" style="margin-right: 12px;">
+            <div class="setting-title" data-i18n="themeTitle">Цветовая тема оформления</div>
+            <div class="setting-desc" data-i18n="themeDesc">Выберите подходящий для вас стиль приложения.</div>
+          </div>
+          <select id="app-theme-mode" class="input-base" style="width: 140px; font-weight: 500;">
+            <option value="space" data-i18n="themeSpace">Космос</option>
+            <option value="dark" data-i18n="themeDark">Серая</option>
+            <option value="light" data-i18n="themeLight">Светлая</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-icon">🌍</div>
+          <div class="setting-info" style="margin-right: 12px;">
+            <div class="setting-title" data-i18n="langTitle">Язык интерфейса</div>
+            <div class="setting-desc" data-i18n="langDesc">Выберите основной язык приложения.</div>
+          </div>
+          <select id="app-lang" class="input-base" style="width: 140px; font-weight: 500;">
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Danger Zone -->
+      <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <button id="btn-uninstall" class="toggle-btn btn-stop" style="width: 100%; background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; font-size: 12px; height: 36px;">
+          <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Полное удаление приложения и данных
+        </button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="toggle-btn" id="app-modal-save" style="background: var(--accent-blue-gradient); padding: 8px 20px; font-size: 13px;">Сохранить и применить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hosts Redirect Modal -->
+<div class="modal-overlay" id="hosts-modal">
+  <div class="modal-content" style="width: 580px;">
+    <div class="modal-header">
+      <div class="modal-title">🌐 DNS / Hosts Редиректор</div>
+      <button class="icon-btn" id="hosts-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+        Привяживает домен напрямую к IP-адресу через файл hosts, обходя заблокированный DNS. Записи вносятся в <code style="font-family: monospace; font-size: 10px;">C:\Windows\System32\drivers\etc\hosts</code>.
+      </div>
+
+      <table class="hosts-table" id="hosts-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;"></th>
+            <th>Категория сервисов</th>
+            <th>Кол-во доменов</th>
+          </tr>
+        </thead>
+        <tbody id="hosts-tbody">
+          <!-- Rows inserted by JS -->
+        </tbody>
+      </table>
+
+      <div class="hosts-status" id="hosts-status"></div>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button class="toggle-btn btn-stop" id="hosts-restore-btn" style="padding: 8px 16px; font-size: 12px; margin: 0;">↺ Очистить всё</button>
+      <button class="toggle-btn btn-start" id="hosts-apply-btn" style="padding: 8px 20px; font-size: 13px; margin: 0;">✔ Применить</button>
+    </div>
+  </div>
+</div>
+<!-- Restart Browser Alert Modal -->
+<div class="modal-overlay" id="restart-modal" style="z-index: 1000;">
+  <div class="modal-content" style="width: 380px; text-align: center;">
+    <div class="modal-body" style="padding: 32px 24px 24px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">🔄</div>
+      <h3 style="margin: 0 0 12px 0; font-size: 18px; color: var(--text-primary);">Изменения применены</h3>
+      <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0 0 24px 0;">
+        Для того чтобы новые сетевые маршруты заработали, необходимо <b>полностью перезапустить браузер</b> (или приложение, к которому были применены изменения).
+      </p>
+      <button class="toggle-btn btn-start" id="restart-modal-ok" style="width: 100%; padding: 10px; font-size: 14px; margin: 0;">Понятно, сейчас перезапущу</button>
+    </div>
+  </div>
+</div>
+
+<!-- Strategy Scanner Modal -->
+<div class="modal-overlay" id="scan-modal" style="z-index: 110;">
+  <div class="modal-content scan-modal-content">
+    <div class="modal-header">
+      <div class="modal-title">🔍 Найти лучший обход</div>
+      <button class="icon-btn" id="scan-modal-close" style="font-size: 20px;">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 16px 20px;">
+
+      <!-- Domain probe selector -->
+      <div style="margin-bottom: 14px;">
+        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 8px;">Проверяемый домен</div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input id="scan-domain-input" type="text" class="input-base" placeholder="Оставьте пустым — будет использован весь список" style="flex: 1; padding: 8px 12px; font-size: 13px; font-family: 'JetBrains Mono', monospace;">
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+          <span class="scan-chip" data-domain="">📋 Весь список</span>
+          <span class="scan-chip" data-domain="discord.com">Discord</span>
+          <span class="scan-chip" data-domain="youtube.com">YouTube</span>
+          <span class="scan-chip" data-domain="google.com">Google</span>
+          <span class="scan-chip" data-domain="cloudflare.com">Cloudflare</span>
+          <span class="scan-chip" data-domain="roblox.com">Roblox</span>
+        </div>
+        <div id="scan-domain-hint" style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">Будет проверен весь <b>list-general.txt</b> (все домены параллельно)</div>
+      </div>
+
+      <div class="scan-progress-label" id="scan-progress-label">Нажмите «Начать сканирование»</div>
+
+      <div class="scan-list" id="scan-list">
+        <!-- rows injected by JS -->
+      </div>
+
+      <div class="scan-summary" id="scan-summary">
+        <div style="font-size: 28px;">🏆</div>
+        <div class="scan-summary-text">
+          <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">Лучшая стратегия найдена!</div>
+          <div id="scan-summary-text" style="color: var(--text-secondary); font-size: 12px;"></div>
+        </div>
+        <button class="toggle-btn btn-start" id="scan-apply-btn" style="padding: 8px 14px; font-size: 12px; margin: 0; white-space: nowrap;">Применить</button>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button class="toggle-btn" id="scan-abort-btn" style="padding: 8px 16px; font-size: 12px; margin: 0; background: transparent; border: 1px solid var(--border); box-shadow: none; display: none;">⏹ Остановить</button>
+      <div id="scan-footer-spacer"></div>
+      <button class="toggle-btn btn-start" id="scan-start-btn" style="padding: 8px 20px; font-size: 13px; margin: 0;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Начать сканирование
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Splash Screen -->
+<div id="splash">
+  <div class="splash-logo">
+    <div class="splash-ring"></div>
+    <div class="splash-ring"></div>
+    <div class="splash-ring"></div>
+    <div class="splash-logo-icon">🛡️</div>
+  </div>
+  <div class="splash-title">DPI Dashboard</div>
+  <div class="splash-sub">Инициализация...</div>
+  <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+</div>
+
+<script src="build/renderer.js"></script>
+</body>
+</html>

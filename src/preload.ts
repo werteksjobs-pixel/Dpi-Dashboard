@@ -1,0 +1,26 @@
+import { contextBridge, ipcRenderer } from 'electron';
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  toggleZapret: (enabled: boolean, cfg?: any) => ipcRenderer.send('toggle-zapret', enabled, cfg),
+  toggleTgProxy: (enabled: boolean, cfg?: any) => ipcRenderer.send('toggle-tgproxy', enabled, cfg),
+  getStatus: () => ipcRenderer.send('get-status'),
+  onStatus: (cb: any) => ipcRenderer.on('status', (_: any, p: any) => cb(p)),
+  onLog: (cb: any) => ipcRenderer.on('log', (_: any, p: any) => cb(p)),
+  minimizeWindow: () => ipcRenderer.send('window-minimize'),
+  closeWindow: () => ipcRenderer.send('window-close'),
+  uninstallApp: () => ipcRenderer.invoke('uninstall-app'),
+  openUrl: (url: string) => ipcRenderer.send('open-url', url),
+  onTgLink: (cb: any) => ipcRenderer.on('tg-link', (_: any, url: string) => cb(url)),
+  updateAppSettings: (settings: any) => ipcRenderer.send('update-app-settings', settings),
+  hostsGet: () => ipcRenderer.invoke('hosts-get'),
+  hostsApply: (entries: string[]) => ipcRenderer.invoke('hosts-apply', entries),
+  hostsRestore: () => ipcRenderer.invoke('hosts-restore'),
+  hostsResolve: (domain: string) => ipcRenderer.invoke('hosts-resolve', domain),
+  listGet: () => ipcRenderer.invoke('list-get'),
+  listApply: (content: string) => ipcRenderer.invoke('list-apply', content),
+  strategyScanStart: (domain?: string) => ipcRenderer.invoke('strategy-scan-start', domain),
+  strategyScanAbort: () => ipcRenderer.invoke('strategy-scan-abort'),
+  onScanProgress: (cb: any) => ipcRenderer.on('scan-progress', (_: any, p: any) => cb(p)),
+  dnsLeakTest: () => ipcRenderer.invoke('dns-leak-test'),
+  statusPing: () => ipcRenderer.invoke('status-ping'),
+});
