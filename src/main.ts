@@ -733,16 +733,24 @@ app.whenReady().then(async () => {
 
       const args = buildZapretArgs(strategy);
       let proc: ReturnType<typeof spawn> | null = null;
+      let spawnError: Error | null = null;
       try {
         proc = spawn(WINWS_EXE, args, { windowsHide: true });
+        // Перехватываем EACCES / ENOENT — иначе это необработанное исключение крашит app
+        proc.on('error', (err) => {
+          spawnError = err;
+          sendLog('zapret', `[Scan] Ошибка запуска winws: ${err.message}\n`);
+        });
         // Wait for winws to initialize (reduced to 1200ms)
         await new Promise(r => setTimeout(r, 1200));
+        if (spawnError) throw spawnError;
         const score = await probeConnectivity(customDomain); // score = 0-100 %
         const label = score >= 80 ? '✅ Отлично' : score >= 50 ? '🟡 Хорошо' : score >= 20 ? '🟠 Слабо' : '❌ Нет связи';
         results.push({ strategy, score, label });
         mainWindow?.webContents.send('scan-progress', { strategy, status: 'done', score });
-      } catch {
-        results.push({ strategy, score: 0, label: '❌ Ошибка' });
+      } catch (err: any) {
+        const errMsg = err?.code === 'EACCES' ? '❌ Нет прав (запустите от администратора)' : '❌ Ошибка';
+        results.push({ strategy, score: 0, label: errMsg });
         mainWindow?.webContents.send('scan-progress', { strategy, status: 'error', score: 0 });
       } finally {
         if (proc) { try { proc.kill('SIGKILL'); } catch {} }

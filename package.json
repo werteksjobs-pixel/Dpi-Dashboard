@@ -1,6 +1,6 @@
 {
   "name": "dpi-dashboard",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "All-in-One networking utility — Zapret & TG Proxy Manager",
   "author": "Max",
   "main": "build/main.js",
