@@ -204,6 +204,19 @@ window.addEventListener('DOMContentLoaded', () => {
         argsSaveBtn: document.getElementById('args-modal-save') as HTMLButtonElement,
         argsCancelBtn: document.getElementById('args-modal-cancel') as HTMLButtonElement,
         argsCloseBtn: document.getElementById('args-modal-close') as HTMLButtonElement,
+
+        // Update Modal
+        updateModal:     document.getElementById('update-modal') as HTMLElement,
+        updateNewVersion: document.getElementById('new-version-text') as HTMLElement,
+        updateYesBtn:    document.getElementById('btn-update-yes') as HTMLButtonElement,
+        updateNoBtn:     document.getElementById('btn-update-no') as HTMLButtonElement,
+        updateProgressWrap: document.getElementById('update-progress-wrap') as HTMLElement,
+        updateProgressBar:  document.getElementById('update-progress-bar') as HTMLElement,
+        updatePercentText:  document.getElementById('update-percent-text') as HTMLElement,
+        updateModalBtns:    document.getElementById('update-modal-btns') as HTMLElement,
+        
+        btnCheckUpdate:  document.getElementById('btn-check-update') as HTMLButtonElement,
+        appVersionDisplay: document.getElementById('app-version-display') as HTMLElement,
     };
 
     const state = { zapret: false, tgproxy: false };
@@ -326,6 +339,69 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     api.getStatus();
+
+    // Task 2: Dynamic Version Display
+    async function initVersion() {
+        if (els.appVersionDisplay) {
+            const version = await api.getAppVersion();
+            els.appVersionDisplay.textContent = `v${version}`;
+        }
+    }
+    initVersion();
+
+    // Task 3: Controlled Manual Update
+    if (els.btnCheckUpdate) {
+        els.btnCheckUpdate.onclick = () => {
+            const lang = els.appLang?.value as 'ru' | 'en' || 'ru';
+            const desc = document.getElementById('update-desc');
+            if (desc) desc.textContent = i18n[lang].updateChecking;
+            api.checkUpdate();
+        };
+    }
+
+    api.onUpdateStatus((status: string, version?: string) => {
+        console.log('Update status:', status, version);
+        const lang = els.appLang?.value as 'ru' | 'en' || 'ru';
+        const desc = document.getElementById('update-desc');
+        
+        if (status === 'available') {
+            if (els.updateModal && version) {
+                els.updateNewVersion!.textContent = version;
+                els.updateModal.classList.add('open');
+                // Сбрасываем прогресс-бар если был
+                els.updateProgressWrap!.style.display = 'none';
+                els.updateModalBtns!.style.display = 'flex';
+            }
+            if (desc) desc.textContent = i18n[lang].updateAvailable;
+        } else if (status === 'latest') {
+            if (desc) desc.textContent = i18n[lang].updateLatest;
+        } else if (status === 'downloaded') {
+            if (desc) desc.textContent = i18n[lang].updateDownloaded;
+        } else if (status === 'error') {
+            if (desc) desc.textContent = i18n[lang].updateError;
+        }
+    });
+
+    api.onUpdateDownloadProgress((percent: number) => {
+        if (els.updateProgressWrap) {
+            els.updateProgressWrap.style.display = 'block';
+            els.updateProgressBar!.style.width = `${percent}%`;
+            els.updatePercentText!.style.display = 'block';
+            els.updatePercentText!.textContent = `${percent}%`;
+            els.updateModalBtns!.style.display = 'none'; // Скрываем кнопки во время загрузки
+        }
+    });
+
+    if (els.updateYesBtn) {
+        els.updateYesBtn.onclick = () => {
+            api.downloadUpdate();
+        };
+    }
+    if (els.updateNoBtn) {
+        els.updateNoBtn.onclick = () => {
+            els.updateModal?.classList.remove('open');
+        };
+    }
 
     // Theme toggle
     const updateTheme = () => {

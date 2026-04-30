@@ -73,6 +73,11 @@ function checkIsAdmin() {
     }
 }
 const runningAsAdmin = checkIsAdmin();
+// --- Task 1: Force Admin Run ---
+if (!runningAsAdmin && electron_1.app.isPackaged) {
+    electron_1.dialog.showErrorBox('Доступ запрещен', 'Пожалуйста, запустите приложение от имени Администратора для корректной работы сетевых драйверов.');
+    electron_1.app.quit();
+}
 // --- Path Resolver & Resource Extractor ---
 const isPackaged = electron_1.app.isPackaged;
 const USER_DATA = electron_1.app.getPath('userData');
@@ -423,35 +428,39 @@ electron_1.app.whenReady().then(async () => {
         }
     });
     // Авто-обновления
+    electron_updater_1.autoUpdater.autoDownload = false; // Task 3: Disable auto-download
     electron_updater_1.autoUpdater.checkForUpdatesAndNotify();
     electron_1.ipcMain.on('check-update', () => {
         electron_updater_1.autoUpdater.checkForUpdates();
     });
-    electron_updater_1.autoUpdater.on('checking-for-update', () => {
-        mainWindow?.webContents.send('update-status', 'checking');
-    });
-    electron_updater_1.autoUpdater.on('update-available', () => {
-        mainWindow?.webContents.send('update-status', 'available');
+    electron_updater_1.autoUpdater.on('update-available', (info) => {
+        mainWindow?.webContents.send('update-status', 'available', info.version);
         if (mainWindow) {
-            mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Доступно обновление, начинается загрузка...\n' });
+            mainWindow.webContents.send('log', { id: 'zapret', data: `[System] Доступна новая версия: ${info.version}\n` });
         }
     });
     electron_updater_1.autoUpdater.on('update-not-available', () => {
         mainWindow?.webContents.send('update-status', 'latest');
     });
     electron_updater_1.autoUpdater.on('download-progress', (progressObj) => {
+        const percent = Math.round(progressObj.percent);
+        mainWindow?.webContents.send('update-download-progress', percent);
         if (mainWindow) {
             mainWindow.webContents.send('log', {
                 id: 'zapret',
-                data: `[System] Скачивание обновления: ${Math.round(progressObj.percent)}% (${Math.round(progressObj.transferred / 1024 / 1024)} МБ из ${Math.round(progressObj.total / 1024 / 1024)} МБ)\n`
+                data: `[System] Скачивание: ${percent}% (${Math.round(progressObj.transferred / 1024 / 1024)} МБ из ${Math.round(progressObj.total / 1024 / 1024)} МБ)\n`
             });
         }
     });
     electron_updater_1.autoUpdater.on('update-downloaded', () => {
         mainWindow?.webContents.send('update-status', 'downloaded');
         if (mainWindow) {
-            mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Обновление загружено и будет установлено при перезапуске.\n' });
+            mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Обновление загружено. Перезапуск для установки...\n' });
         }
+        // Ждем секунду и устанавливаем
+        setTimeout(() => {
+            electron_updater_1.autoUpdater.quitAndInstall();
+        }, 1500);
     });
     electron_updater_1.autoUpdater.on('error', (err) => {
         mainWindow?.webContents.send('update-status', 'error');
@@ -477,6 +486,14 @@ electron_1.app.whenReady().then(async () => {
     electron_1.ipcMain.on('window-minimize', () => { mainWindow?.minimize(); });
     electron_1.ipcMain.on('window-close', () => { mainWindow?.hide(); }); // Свернуть в трей
     electron_1.ipcMain.on('open-url', (_, url) => { electron_1.shell.openExternal(url); });
+    // Task 2: Version Display
+    electron_1.ipcMain.handle('get-app-version', () => {
+        return electron_1.app.getVersion();
+    });
+    // Task 3: Manual update download trigger
+    electron_1.ipcMain.on('download-update', () => {
+        electron_updater_1.autoUpdater.downloadUpdate();
+    });
     electron_1.ipcMain.on('update-app-settings', (_, settings) => {
         try {
             fs.writeFileSync(APP_CONFIG_PATH, JSON.stringify(settings));
@@ -562,7 +579,7 @@ electron_1.app.whenReady().then(async () => {
         }
     });
     // ── Strategy Auto-Scanner ─────────────────────────────────────
-    const STRATEGIES = ['alt3', 'fake-tls', 'alt', 'alt1', 'alt2', 'alt4', 'alt5', 'alt6', 'alt7', 'alt8', 'alt9', 'alt10', 'alt11'];
+    const STRATEGIES = ['fake-tls-pro', 'alt3', 'fake-tls', 'alt', 'alt1', 'alt2', 'alt4', 'alt5', 'alt6', 'alt7', 'alt8', 'alt9', 'alt10', 'alt11'];
     /** Читаем ВСЕ домены из list-general.txt */
     function getProbeHosts() {
         try {
@@ -698,6 +715,9 @@ electron_1.app.whenReady().then(async () => {
             case 'alt10':
                 args.push('--dpi-desync=fake,disorder', '--dpi-desync-repeats=6', '--dpi-desync-fooling=badseq', '--dpi-desync-badseq-increment=1000', `--dpi-desync-fake-tls=${tlsPath}`);
                 break;
+            case 'fake-tls-pro':
+                args.push('--dpi-desync=fake,split2', '--dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com', '--dpi-desync-fooling=ts', '--dpi-desync-repeats=6', `--dpi-desync-fake-tls=${tlsPath}`);
+                break;
             case 'alt11':
                 args.push('--dpi-desync=fake,split2', '--dpi-desync-repeats=12', '--dpi-desync-fooling=md5sig', `--dpi-desync-fake-tls=${tlsPath}`);
                 break;
@@ -724,17 +744,26 @@ electron_1.app.whenReady().then(async () => {
             mainWindow?.webContents.send('scan-progress', { strategy, status: 'testing' });
             const args = buildZapretArgs(strategy);
             let proc = null;
+            let spawnError = null;
             try {
                 proc = (0, child_process_1.spawn)(WINWS_EXE, args, { windowsHide: true });
+                // Перехватываем EACCES / ENOENT — иначе это необработанное исключение крашит app
+                proc.on('error', (err) => {
+                    spawnError = err;
+                    sendLog('zapret', `[Scan] Ошибка запуска winws: ${err.message}\n`);
+                });
                 // Wait for winws to initialize (reduced to 1200ms)
                 await new Promise(r => setTimeout(r, 1200));
+                if (spawnError)
+                    throw spawnError;
                 const score = await probeConnectivity(customDomain); // score = 0-100 %
                 const label = score >= 80 ? '✅ Отлично' : score >= 50 ? '🟡 Хорошо' : score >= 20 ? '🟠 Слабо' : '❌ Нет связи';
                 results.push({ strategy, score, label });
                 mainWindow?.webContents.send('scan-progress', { strategy, status: 'done', score });
             }
-            catch {
-                results.push({ strategy, score: 0, label: '❌ Ошибка' });
+            catch (err) {
+                const errMsg = err?.code === 'EACCES' ? '❌ Нет прав (запустите от администратора)' : '❌ Ошибка';
+                results.push({ strategy, score: 0, label: errMsg });
                 mainWindow?.webContents.send('scan-progress', { strategy, status: 'error', score: 0 });
             }
             finally {

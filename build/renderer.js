@@ -199,6 +199,17 @@ window.addEventListener('DOMContentLoaded', () => {
         argsSaveBtn: document.getElementById('args-modal-save'),
         argsCancelBtn: document.getElementById('args-modal-cancel'),
         argsCloseBtn: document.getElementById('args-modal-close'),
+        // Update Modal
+        updateModal: document.getElementById('update-modal'),
+        updateNewVersion: document.getElementById('new-version-text'),
+        updateYesBtn: document.getElementById('btn-update-yes'),
+        updateNoBtn: document.getElementById('btn-update-no'),
+        updateProgressWrap: document.getElementById('update-progress-wrap'),
+        updateProgressBar: document.getElementById('update-progress-bar'),
+        updatePercentText: document.getElementById('update-percent-text'),
+        updateModalBtns: document.getElementById('update-modal-btns'),
+        btnCheckUpdate: document.getElementById('btn-check-update'),
+        appVersionDisplay: document.getElementById('app-version-display'),
     };
     const state = { zapret: false, tgproxy: false };
     // Функция отрисовки логов
@@ -320,6 +331,71 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     api.getStatus();
+    // Task 2: Dynamic Version Display
+    async function initVersion() {
+        if (els.appVersionDisplay) {
+            const version = await api.getAppVersion();
+            els.appVersionDisplay.textContent = `v${version}`;
+        }
+    }
+    initVersion();
+    // Task 3: Controlled Manual Update
+    if (els.btnCheckUpdate) {
+        els.btnCheckUpdate.onclick = () => {
+            const lang = els.appLang?.value || 'ru';
+            const desc = document.getElementById('update-desc');
+            if (desc)
+                desc.textContent = i18n[lang].updateChecking;
+            api.checkUpdate();
+        };
+    }
+    api.onUpdateStatus((status, version) => {
+        console.log('Update status:', status, version);
+        const lang = els.appLang?.value || 'ru';
+        const desc = document.getElementById('update-desc');
+        if (status === 'available') {
+            if (els.updateModal && version) {
+                els.updateNewVersion.textContent = version;
+                els.updateModal.classList.add('open');
+                // Сбрасываем прогресс-бар если был
+                els.updateProgressWrap.style.display = 'none';
+                els.updateModalBtns.style.display = 'flex';
+            }
+            if (desc)
+                desc.textContent = i18n[lang].updateAvailable;
+        }
+        else if (status === 'latest') {
+            if (desc)
+                desc.textContent = i18n[lang].updateLatest;
+        }
+        else if (status === 'downloaded') {
+            if (desc)
+                desc.textContent = i18n[lang].updateDownloaded;
+        }
+        else if (status === 'error') {
+            if (desc)
+                desc.textContent = i18n[lang].updateError;
+        }
+    });
+    api.onUpdateDownloadProgress((percent) => {
+        if (els.updateProgressWrap) {
+            els.updateProgressWrap.style.display = 'block';
+            els.updateProgressBar.style.width = `${percent}%`;
+            els.updatePercentText.style.display = 'block';
+            els.updatePercentText.textContent = `${percent}%`;
+            els.updateModalBtns.style.display = 'none'; // Скрываем кнопки во время загрузки
+        }
+    });
+    if (els.updateYesBtn) {
+        els.updateYesBtn.onclick = () => {
+            api.downloadUpdate();
+        };
+    }
+    if (els.updateNoBtn) {
+        els.updateNoBtn.onclick = () => {
+            els.updateModal?.classList.remove('open');
+        };
+    }
     // Theme toggle
     const updateTheme = () => {
         document.body.classList.remove('theme-light', 'theme-gray');

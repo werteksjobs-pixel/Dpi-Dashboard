@@ -41,6 +41,15 @@ function checkIsAdmin(): boolean {
 
 const runningAsAdmin = checkIsAdmin();
 
+// --- Task 1: Force Admin Run ---
+if (!runningAsAdmin && app.isPackaged) {
+  dialog.showErrorBox(
+    'Доступ запрещен',
+    'Пожалуйста, запустите приложение от имени Администратора для корректной работы сетевых драйверов.'
+  );
+  app.quit();
+}
+
 // --- Interfaces ---
 export interface ZapretConfig {
   strategy: string;
@@ -444,20 +453,17 @@ app.whenReady().then(async () => {
   });
 
   // Авто-обновления
+  autoUpdater.autoDownload = false; // Task 3: Disable auto-download
   autoUpdater.checkForUpdatesAndNotify();
 
   ipcMain.on('check-update', () => {
     autoUpdater.checkForUpdates();
   });
 
-  autoUpdater.on('checking-for-update', () => {
-    mainWindow?.webContents.send('update-status', 'checking');
-  });
-
-  autoUpdater.on('update-available', () => {
-    mainWindow?.webContents.send('update-status', 'available');
+  autoUpdater.on('update-available', (info) => {
+    mainWindow?.webContents.send('update-status', 'available', info.version);
     if (mainWindow) {
-      mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Доступно обновление, начинается загрузка...\n' });
+      mainWindow.webContents.send('log', { id: 'zapret', data: `[System] Доступна новая версия: ${info.version}\n` });
     }
   });
 
@@ -466,10 +472,12 @@ app.whenReady().then(async () => {
   });
 
   autoUpdater.on('download-progress', (progressObj) => {
+    const percent = Math.round(progressObj.percent);
+    mainWindow?.webContents.send('update-download-progress', percent);
     if (mainWindow) {
       mainWindow.webContents.send('log', { 
         id: 'zapret', 
-        data: `[System] Скачивание обновления: ${Math.round(progressObj.percent)}% (${Math.round(progressObj.transferred / 1024 / 1024)} МБ из ${Math.round(progressObj.total / 1024 / 1024)} МБ)\n` 
+        data: `[System] Скачивание: ${percent}% (${Math.round(progressObj.transferred / 1024 / 1024)} МБ из ${Math.round(progressObj.total / 1024 / 1024)} МБ)\n` 
       });
     }
   });
@@ -477,8 +485,12 @@ app.whenReady().then(async () => {
   autoUpdater.on('update-downloaded', () => {
     mainWindow?.webContents.send('update-status', 'downloaded');
     if (mainWindow) {
-      mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Обновление загружено и будет установлено при перезапуске.\n' });
+      mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Обновление загружено. Перезапуск для установки...\n' });
     }
+    // Ждем секунду и устанавливаем
+    setTimeout(() => {
+      autoUpdater.quitAndInstall();
+    }, 1500);
   });
 
   autoUpdater.on('error', (err: any) => {
@@ -504,6 +516,16 @@ app.whenReady().then(async () => {
   ipcMain.on('window-minimize', () => { mainWindow?.minimize(); });
   ipcMain.on('window-close', () => { mainWindow?.hide(); }); // Свернуть в трей
   ipcMain.on('open-url', (_, url: string) => { shell.openExternal(url); });
+
+  // Task 2: Version Display
+  ipcMain.handle('get-app-version', () => {
+    return app.getVersion();
+  });
+
+  // Task 3: Manual update download trigger
+  ipcMain.on('download-update', () => {
+    autoUpdater.downloadUpdate();
+  });
   ipcMain.on('update-app-settings', (_, settings) => {
     try {
       fs.writeFileSync(APP_CONFIG_PATH, JSON.stringify(settings));

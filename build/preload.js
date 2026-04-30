@@ -25,5 +25,8 @@ electron_1.contextBridge.exposeInMainWorld('electronAPI', {
     dnsLeakTest: () => electron_1.ipcRenderer.invoke('dns-leak-test'),
     statusPing: () => electron_1.ipcRenderer.invoke('status-ping'),
     checkUpdate: () => electron_1.ipcRenderer.send('check-update'),
-    onUpdateStatus: (cb) => electron_1.ipcRenderer.on('update-status', (_, s) => cb(s)),
+    downloadUpdate: () => electron_1.ipcRenderer.send('download-update'),
+    getAppVersion: () => electron_1.ipcRenderer.invoke('get-app-version'),
+    onUpdateStatus: (cb) => electron_1.ipcRenderer.on('update-status', (_, status, version) => cb(status, version)),
+    onUpdateDownloadProgress: (cb) => electron_1.ipcRenderer.on('update-download-progress', (_, percent) => cb(percent)),
 });
