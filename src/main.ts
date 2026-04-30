@@ -450,6 +450,15 @@ app.whenReady().then(async () => {
     mainWindow?.webContents.send('update-status', 'latest');
   });
 
+  autoUpdater.on('download-progress', (progressObj) => {
+    if (mainWindow) {
+      mainWindow.webContents.send('log', { 
+        id: 'zapret', 
+        data: `[System] Скачивание обновления: ${Math.round(progressObj.percent)}% (${Math.round(progressObj.transferred / 1024 / 1024)} МБ из ${Math.round(progressObj.total / 1024 / 1024)} МБ)\n` 
+      });
+    }
+  });
+
   autoUpdater.on('update-downloaded', () => {
     mainWindow?.webContents.send('update-status', 'downloaded');
     if (mainWindow) {
