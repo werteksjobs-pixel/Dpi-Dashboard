@@ -254,6 +254,9 @@ function startZapret(config: ZapretConfig): void {
     case 'alt11':
       args.push('--dpi-desync=fake,split2', '--dpi-desync-repeats=12', '--dpi-desync-fooling=md5sig', `--dpi-desync-fake-tls=${tlsPath}`);
       break;
+    case 'fake-tls-pro':
+      args.push('--dpi-desync=fake,split2', '--dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com', '--dpi-desync-fooling=ts', '--dpi-desync-repeats=6', `--dpi-desync-fake-tls=${tlsPath}`);
+      break;
     case 'fake-tls':
     default:
       args.push('--dpi-desync=fake,split2', '--dpi-desync-repeats=6', '--dpi-desync-fooling=md5sig', `--dpi-desync-fake-tls=${tlsPath}`);
