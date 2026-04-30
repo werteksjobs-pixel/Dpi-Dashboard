@@ -895,7 +895,16 @@
       animation: spin 0.7s linear infinite;
       flex-shrink: 0;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .spinning { animation: spin 1s linear infinite; }
+  
+    @keyframes pulse-soft {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pulse { animation: pulse-soft 2s ease-in-out infinite; }
+    
     .scan-icon { width: 16px; text-align: center; flex-shrink: 0; font-size: 15px; }
     .scan-summary {
       margin-top: 16px;
@@ -1427,6 +1436,22 @@
             <option value="ru">Русский</option>
             <option value="en">English</option>
           </select>
+        </div>
+
+        <div class="setting-row" id="update-row" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; background: none; border-radius: 0;">
+          <div class="setting-icon" id="update-icon-container" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; display: flex; align-items: center; justify-content: center;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" id="update-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
+          <div class="setting-info">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="setting-title" data-i18n="updateTitle">Обновление приложения</div>
+              <span id="update-status" style="font-size: 10px; padding: 2px 6px; background: rgba(255,255,255,0.05); border-radius: 4px; color: var(--text-secondary);">v1.0.0</span>
+            </div>
+            <div class="setting-desc" id="update-desc" data-i18n="btnCheckUpdate">Проверить наличие новых версий на GitHub</div>
+          </div>
+          <button id="btn-check-update" class="icon-btn" style="background: var(--accent-blue-gradient); width: 32px; height: 32px; border-radius: 8px; color: white; flex-shrink: 0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
 
       </div>

@@ -450,16 +450,35 @@ app.whenReady().then(async () => {
   // Авто-обновления
   autoUpdater.checkForUpdatesAndNotify();
 
+  ipcMain.on('check-update', () => {
+    autoUpdater.checkForUpdates();
+  });
+
+  autoUpdater.on('checking-for-update', () => {
+    mainWindow?.webContents.send('update-status', 'checking');
+  });
+
   autoUpdater.on('update-available', () => {
+    mainWindow?.webContents.send('update-status', 'available');
     if (mainWindow) {
-      mainWindow.webContents.send('log-data', { id: 'zapret', data: '[System] Доступно обновление, начинается загрузка...\n' });
+      mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Доступно обновление, начинается загрузка...\n' });
     }
   });
 
+  autoUpdater.on('update-not-available', () => {
+    mainWindow?.webContents.send('update-status', 'latest');
+  });
+
   autoUpdater.on('update-downloaded', () => {
+    mainWindow?.webContents.send('update-status', 'downloaded');
     if (mainWindow) {
-      mainWindow.webContents.send('log-data', { id: 'zapret', data: '[System] Обновление загружено и будет установлено при перезапуске.\n' });
+      mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Обновление загружено и будет установлено при перезапуске.\n' });
     }
+  });
+
+  autoUpdater.on('error', (err: any) => {
+    mainWindow?.webContents.send('update-status', 'error');
+    console.error('Update error:', err);
   });
 
   // Создаём иконку в трее

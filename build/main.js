@@ -39,6 +39,7 @@ const fs = __importStar(require("fs"));
 const child_process_1 = require("child_process");
 const dns = __importStar(require("dns"));
 const util_1 = require("util");
+const electron_updater_1 = require("electron-updater");
 const dnsResolve4 = (0, util_1.promisify)(dns.resolve4);
 // --- Single Instance Lock ---
 const gotTheLock = electron_1.app.requestSingleInstanceLock();
@@ -421,6 +422,33 @@ electron_1.app.whenReady().then(async () => {
             e.preventDefault();
             mainWindow?.hide();
         }
+    });
+    // Авто-обновления
+    electron_updater_1.autoUpdater.checkForUpdatesAndNotify();
+    electron_1.ipcMain.on('check-update', () => {
+        electron_updater_1.autoUpdater.checkForUpdates();
+    });
+    electron_updater_1.autoUpdater.on('checking-for-update', () => {
+        mainWindow?.webContents.send('update-status', 'checking');
+    });
+    electron_updater_1.autoUpdater.on('update-available', () => {
+        mainWindow?.webContents.send('update-status', 'available');
+        if (mainWindow) {
+            mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Доступно обновление, начинается загрузка...\n' });
+        }
+    });
+    electron_updater_1.autoUpdater.on('update-not-available', () => {
+        mainWindow?.webContents.send('update-status', 'latest');
+    });
+    electron_updater_1.autoUpdater.on('update-downloaded', () => {
+        mainWindow?.webContents.send('update-status', 'downloaded');
+        if (mainWindow) {
+            mainWindow.webContents.send('log', { id: 'zapret', data: '[System] Обновление загружено и будет установлено при перезапуске.\n' });
+        }
+    });
+    electron_updater_1.autoUpdater.on('error', (err) => {
+        mainWindow?.webContents.send('update-status', 'error');
+        console.error('Update error:', err);
     });
     // Создаём иконку в трее
     await setupTray();

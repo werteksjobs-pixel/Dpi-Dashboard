@@ -24,4 +24,6 @@ electron_1.contextBridge.exposeInMainWorld('electronAPI', {
     onScanProgress: (cb) => electron_1.ipcRenderer.on('scan-progress', (_, p) => cb(p)),
     dnsLeakTest: () => electron_1.ipcRenderer.invoke('dns-leak-test'),
     statusPing: () => electron_1.ipcRenderer.invoke('status-ping'),
+    checkUpdate: () => electron_1.ipcRenderer.send('check-update'),
+    onUpdateStatus: (cb) => electron_1.ipcRenderer.on('update-status', (_, s) => cb(s)),
 });

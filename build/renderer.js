@@ -54,7 +54,14 @@ const i18n = {
         zapretScanTitle: '🔍 Найти лучший обход',
         zapretScanDesc: 'Автоматически перебирает все стратегии и проверяет связь.',
         zapretDnsTitle: '🧩 DNS Leak Test',
-        zapretDnsDesc: 'Проверяет DNS резолюцию и TCP доступность.'
+        zapretDnsDesc: 'Проверяет DNS резолюцию и TCP доступность.',
+        updateTitle: 'Обновление приложения',
+        btnCheckUpdate: 'Проверить наличие обновлений',
+        updateChecking: '🔎 Проверка...',
+        updateAvailable: '📥 Загрузка...',
+        updateLatest: '✅ Последняя версия',
+        updateDownloaded: '📦 Готово к установке',
+        updateError: '❌ Ошибка проверки'
     },
     en: {
         zapretTitle: 'Zapret Bypass',
@@ -109,7 +116,14 @@ const i18n = {
         zapretScanTitle: '🔍 Find Best Strategy',
         zapretScanDesc: 'Automatically tests all strategies and checks connection.',
         zapretDnsTitle: '🧩 DNS Leak Test',
-        zapretDnsDesc: 'Checks DNS resolution and TCP availability.'
+        zapretDnsDesc: 'Checks DNS resolution and TCP availability.',
+        updateTitle: 'App Updates',
+        btnCheckUpdate: 'Check for Updates',
+        updateChecking: '🔎 Checking...',
+        updateAvailable: '📥 Downloading...',
+        updateLatest: '✅ Up to date',
+        updateDownloaded: '📦 Ready to install',
+        updateError: '❌ Update error'
     }
 };
 function updateLanguage(lang) {
@@ -873,6 +887,61 @@ window.addEventListener('DOMContentLoaded', () => {
                     dnsVerdict.className = 'dns-verdict visible leaking';
                     dnsVerdict.innerHTML = `⚠️ <b>Блокировка обнаружена</b> для ${blocked} из ${total} доменов. Запустите Zapret и повторите тест.`;
                 }
+            }
+        });
+    }
+    // Обработка обновлений
+    const btnCheckUpdate = document.getElementById('btn-check-update');
+    const updateStatus = document.getElementById('update-status');
+    const updateDesc = document.getElementById('update-desc');
+    const updateIcon = document.getElementById('update-svg');
+    const updateContainer = document.getElementById('update-icon-container');
+    if (btnCheckUpdate) {
+        btnCheckUpdate.onclick = () => api.checkUpdate();
+    }
+    if (api.onUpdateStatus) {
+        api.onUpdateStatus((status) => {
+            if (!updateStatus || !updateDesc)
+                return;
+            const lang = document.getElementById('app-lang')?.value || 'ru';
+            // Сброс анимаций
+            updateIcon?.classList.remove('spinning');
+            updateContainer?.classList.remove('pulse');
+            switch (status) {
+                case 'checking':
+                    updateStatus.textContent = i18n[lang].updateChecking;
+                    updateStatus.style.color = 'var(--accent-blue)';
+                    updateIcon?.classList.add('spinning');
+                    updateContainer?.classList.add('pulse');
+                    break;
+                case 'available':
+                    updateStatus.textContent = i18n[lang].updateAvailable;
+                    updateStatus.style.color = '#10b981';
+                    if (updateContainer) {
+                        updateContainer.style.background = 'rgba(16, 185, 129, 0.1)';
+                        updateContainer.style.color = '#10b981';
+                    }
+                    break;
+                case 'latest':
+                    updateStatus.textContent = i18n[lang].updateLatest;
+                    updateStatus.style.color = 'var(--text-secondary)';
+                    if (updateContainer) {
+                        updateContainer.style.background = 'rgba(255,255,255,0.05)';
+                        updateContainer.style.color = 'var(--text-secondary)';
+                    }
+                    break;
+                case 'downloaded':
+                    updateStatus.textContent = i18n[lang].updateDownloaded;
+                    updateStatus.style.color = '#10b981';
+                    break;
+                case 'error':
+                    updateStatus.textContent = i18n[lang].updateError;
+                    updateStatus.style.color = '#ef4444';
+                    if (updateContainer) {
+                        updateContainer.style.background = 'rgba(239, 68, 68, 0.1)';
+                        updateContainer.style.color = '#ef4444';
+                    }
+                    break;
             }
         });
     }
