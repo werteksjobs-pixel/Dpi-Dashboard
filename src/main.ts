@@ -15,11 +15,15 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', () => {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    console.log('Second instance detected. Focus triggered.');
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.show();
+      if (!mainWindow.isVisible()) mainWindow.show();
       mainWindow.focus();
+      // Дополнительно для Windows: выводим на передний план
+      mainWindow.setAlwaysOnTop(true);
+      setTimeout(() => mainWindow?.setAlwaysOnTop(false), 200);
     }
   });
 }
@@ -163,10 +167,10 @@ async function setupTray() {
     ]);
 
     tray.setToolTip('DPI Dashboard');
-    tray.setContextMenu(contextMenu);
     tray.on('double-click', () => {
       mainWindow?.show();
     });
+    tray.setContextMenu(contextMenu);
   } catch (e) {
     console.error('Tray setup failed:', e);
   }
@@ -405,8 +409,12 @@ app.whenReady().then(async () => {
   });
 
   mainWindow.once('ready-to-show', () => {
-    if (!isPackaged || !appSettings.minimized) {
+    const startMinimized = process.argv.includes('--minimized') || appSettings.minimized;
+    // Если запущено вручную (нет флага и нет настройки) или просто всегда показываем для надежности
+    if (!startMinimized) {
       mainWindow?.show();
+    } else {
+      console.log('App started in minimized mode (to tray).');
     }
   });
 
@@ -502,6 +510,7 @@ app.whenReady().then(async () => {
       app.setLoginItemSettings({
         openAtLogin: settings.autostart,
         path: process.execPath,
+        args: ['--minimized']
       });
     } catch(e) {
       console.error('Failed to save app settings:', e);
