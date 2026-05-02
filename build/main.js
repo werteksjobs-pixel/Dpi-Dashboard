@@ -73,10 +73,22 @@ function checkIsAdmin() {
     }
 }
 const runningAsAdmin = checkIsAdmin();
-// --- Task 1: Force Admin Run ---
+// --- Task 1: Force Admin Run & Auto-Elevation ---
 if (!runningAsAdmin && electron_1.app.isPackaged) {
-    electron_1.dialog.showErrorBox('Доступ запрещен', 'Пожалуйста, запустите приложение от имени Администратора для корректной работы сетевых драйверов.');
-    electron_1.app.quit();
+    const { exec } = require('child_process');
+    // Пробуем перезапуститься через PowerShell с запросом прав (Verb RunAs)
+    const elevateCmd = `powershell -Command "Start-Process -FilePath '${process.execPath}' -Verb RunAs"`;
+    exec(elevateCmd, (err) => {
+        if (err) {
+            // Если пользователь нажал "Нет" в окне UAC
+            electron_1.dialog.showErrorBox('Доступ запрещен', 'Для работы сетевых функций требуются права Администратора. Приложение будет закрыто.');
+        }
+        electron_1.app.quit();
+    });
+}
+// Принудительно чистим старый автозапуск из реестра, если он там остался
+if (electron_1.app.isPackaged) {
+    electron_1.app.setLoginItemSettings({ openAtLogin: false });
 }
 // --- Path Resolver & Resource Extractor ---
 const isPackaged = electron_1.app.isPackaged;
@@ -123,6 +135,8 @@ let tray = null;
 let isQuitting = false;
 let zapretProc = null;
 let tgProc = null;
+let lastTrafficBytes = 0;
+let totalDataProcessed = 0;
 function isRunning(proc) {
     return proc !== null && proc.exitCode === null && !proc.killed;
 }
@@ -191,21 +205,37 @@ function startZapret(config) {
         sendLog('zapret', `[Error] winws.exe not found at: ${WINWS_EXE}\n`);
         return;
     }
+    // Фильтруем аргументы, чтобы избежать дубликатов или несовместимых флагов
     const args = ['--wf-tcp=80,443'];
+    // Удаляем --stats если он пришел из настроек, так как он вызывает ошибку в текущей версии winws
+    if (config.customArgs) {
+        config.customArgs = config.customArgs.replace(/--stats\b/g, '').trim();
+    }
     // gameFilter=true = "Games mode" → include game UDP ports 50000-65535
     args.push(config.gameFilter ? '--wf-udp=443,50000-65535' : '--wf-udp=443');
     // Paths
     const tlsPath = resolveExternalPath('bin', 'tls_clienthello_www_google_com.bin');
     const quicPath = resolveExternalPath('bin', 'quic_initial_www_google_com.bin');
+    // Всегда используем list-general.txt как основной список хостов
     let listArg = '';
+    let ipsetArg = '';
     if (config.filterMode === 'loaded') {
-        const listPath = resolveExternalPath('lists', config.ipsetFilter ? 'ipset-all.txt' : 'list-general.txt');
-        listArg = config.ipsetFilter ? `--ipset=${listPath}` : `--hostlist=${listPath}`;
+        const hostlistPath = resolveExternalPath('lists', 'list-general.txt');
+        listArg = `--hostlist=${hostlistPath}`;
+        // ipset-all.txt — дополнительный фильтр по IP, если включён чекбокс
+        if (config.ipsetFilter) {
+            const ipsetPath = resolveExternalPath('lists', 'ipset-all.txt');
+            if (fs.existsSync(ipsetPath)) {
+                ipsetArg = `--ipset=${ipsetPath}`;
+            }
+        }
     }
-    // Block 1: QUIC UDP 443 — обработка YouTube QUIC трафика
+    // Block 1: QUIC UDP 443
     args.push('--filter-udp=443');
     if (listArg)
         args.push(listArg);
+    if (ipsetArg)
+        args.push(ipsetArg);
     args.push('--dpi-desync=fake', '--dpi-desync-repeats=6', `--dpi-desync-fake-quic=${quicPath}`, '--new');
     // Block 2: Game UDP (50000-65535) — добавляем блок если включён Game Filter
     if (config.gameFilter) {
@@ -215,11 +245,15 @@ function startZapret(config) {
     args.push('--filter-tcp=80');
     if (listArg)
         args.push(listArg);
+    if (ipsetArg)
+        args.push(ipsetArg);
     args.push('--dpi-desync=fake,split2', '--dpi-desync-autottl=2', '--dpi-desync-fooling=md5sig', '--new');
-    // Block 4: HTTPS TCP 443 — основной блок со стратегиями
+    // Block 4: HTTPS TCP 443
     args.push('--filter-tcp=443');
     if (listArg)
         args.push(listArg);
+    if (ipsetArg)
+        args.push(ipsetArg);
     switch (config.strategy) {
         case 'alt':
             args.push('--dpi-desync=fake,fakedsplit', '--dpi-desync-repeats=6', '--dpi-desync-fooling=ts', '--dpi-desync-fakedsplit-pattern=0x00', `--dpi-desync-fake-tls=${tlsPath}`);
@@ -270,7 +304,7 @@ function startZapret(config) {
     }
     // Пользовательские аргументы
     if (config.customArgs && config.customArgs.trim()) {
-        const customParts = config.customArgs.trim().split(/\s+/);
+        const customParts = config.customArgs.trim().split(/\s+/).filter(p => p.length > 0);
         args.push(...customParts);
     }
     sendLog('zapret', `[System] Starting winws.exe...\n`);
@@ -372,6 +406,13 @@ function stopTgProxy() {
         sendStatus('tgproxy');
     }
 }
+// Глобальная очистка при выходе
+electron_1.app.on('will-quit', () => {
+    console.log('App quitting... Cleaning up processes.');
+    if (isRunning(zapretProc))
+        zapretProc.kill('SIGKILL');
+    stopTgProxy();
+});
 electron_1.app.whenReady().then(async () => {
     ensureResources();
     let appSettings = {};
@@ -470,18 +511,61 @@ electron_1.app.whenReady().then(async () => {
     await setupTray();
     electron_1.ipcMain.on('toggle-zapret', (_, enabled, cfg) => {
         console.log('IPC: toggle-zapret', enabled);
-        if (enabled)
+        if (enabled) {
             startZapret(cfg);
-        else if (isRunning(zapretProc))
-            zapretProc.kill('SIGKILL');
+        }
+        else {
+            if (isRunning(zapretProc))
+                zapretProc.kill('SIGKILL');
+        }
+        // Сохраняем состояние
+        updatePersistedState({ zapretEnabled: enabled, zapretConfig: cfg });
     });
     electron_1.ipcMain.on('toggle-tgproxy', (_, enabled, cfg) => {
         console.log('IPC: toggle-tgproxy', enabled);
-        if (enabled)
+        if (enabled) {
             startTgProxy(cfg);
-        else
+        }
+        else {
             stopTgProxy();
+        }
+        // Сохраняем состояние
+        updatePersistedState({ tgEnabled: enabled, tgConfig: cfg });
     });
+    function updatePersistedState(partial) {
+        try {
+            let current = {};
+            if (fs.existsSync(APP_CONFIG_PATH)) {
+                current = JSON.parse(fs.readFileSync(APP_CONFIG_PATH, 'utf8'));
+            }
+            const updated = { ...current, ...partial };
+            fs.writeFileSync(APP_CONFIG_PATH, JSON.stringify(updated));
+        }
+        catch (e) {
+            console.error('Failed to update persisted state:', e);
+        }
+    }
+    // Функция восстановления сессии
+    function restoreSession() {
+        try {
+            if (!fs.existsSync(APP_CONFIG_PATH))
+                return;
+            const settings = JSON.parse(fs.readFileSync(APP_CONFIG_PATH, 'utf8'));
+            if (settings.zapretEnabled && settings.zapretConfig) {
+                console.log('Restoring Zapret session...');
+                startZapret(settings.zapretConfig);
+            }
+            if (settings.tgEnabled && settings.tgConfig) {
+                console.log('Restoring TG Proxy session...');
+                startTgProxy(settings.tgConfig);
+            }
+        }
+        catch (e) {
+            console.error('Failed to restore session:', e);
+        }
+    }
+    // Запускаем восстановление через небольшую паузу после старта
+    setTimeout(restoreSession, 1000);
     electron_1.ipcMain.on('get-status', () => { sendStatus('zapret'); sendStatus('tgproxy'); });
     electron_1.ipcMain.on('window-minimize', () => { mainWindow?.minimize(); });
     electron_1.ipcMain.on('window-close', () => { mainWindow?.hide(); }); // Свернуть в трей
@@ -497,15 +581,152 @@ electron_1.app.whenReady().then(async () => {
     electron_1.ipcMain.on('update-app-settings', (_, settings) => {
         try {
             fs.writeFileSync(APP_CONFIG_PATH, JSON.stringify(settings));
-            electron_1.app.setLoginItemSettings({
-                openAtLogin: settings.autostart,
-                path: process.execPath,
-                args: ['--minimized']
-            });
+            const taskName = 'DPIDashboardAutostart';
+            const appPath = process.execPath;
+            // Сначала всегда удаляем старый метод из реестра, если он там был
+            electron_1.app.setLoginItemSettings({ openAtLogin: false });
+            if (settings.autostart) {
+                // Создаем задачу в планировщике с наивысшими правами
+                const createCmd = `schtasks /create /tn "${taskName}" /tr "\\"${appPath}\\" --minimized" /sc onlogon /rl highest /f`;
+                const { exec } = require('child_process');
+                exec(createCmd, (err) => {
+                    if (err)
+                        console.error('Failed to create autostart task:', err);
+                    else
+                        console.log('Autostart task created successfully with high privileges.');
+                });
+            }
+            else {
+                // Удаляем задачу
+                const deleteCmd = `schtasks /delete /tn "${taskName}" /f`;
+                const { exec } = require('child_process');
+                exec(deleteCmd, () => {
+                    console.log('Autostart task removed.');
+                });
+            }
         }
         catch (e) {
             console.error('Failed to save app settings:', e);
         }
+    });
+    // ── Network Stats & Watchdog ─────────────────────────────────
+    let statsInterval = null;
+    function startStatsMonitor() {
+        if (statsInterval)
+            return;
+        statsInterval = setInterval(() => {
+            if (isRunning(zapretProc)) {
+                const { exec } = require('child_process');
+                // Используем netstat -e, так как это быстрее и надежнее PowerShell для общей статистики
+                exec('netstat -e', (err, stdout) => {
+                    if (!err && stdout) {
+                        // Ищем строку с байтами. Она содержит два больших числа (Received, Sent)
+                        // Регулярка ищет строку, начинающуюся с "Bytes" или "Байты", и берет числа
+                        const match = stdout.match(/(?:Bytes|Байты|Bytes)\s+(\d+)\s+(\d+)/i);
+                        if (match) {
+                            const currentBytes = parseInt(match[1]) + parseInt(match[2]);
+                            if (isNaN(currentBytes))
+                                return;
+                            if (lastTrafficBytes === 0) {
+                                lastTrafficBytes = currentBytes;
+                                return;
+                            }
+                            const delta = currentBytes >= lastTrafficBytes ? (currentBytes - lastTrafficBytes) : 0;
+                            totalDataProcessed += delta;
+                            mainWindow?.webContents.send('on-traffic-stats', {
+                                bps: delta,
+                                total: totalDataProcessed
+                            });
+                            lastTrafficBytes = currentBytes;
+                        }
+                        else {
+                            // Если netstat не сработал (редко), пробуем запасной вариант через PS
+                            const psCmd = `powershell -Command "(Get-NetAdapterStatistics -ErrorAction SilentlyContinue | Measure-Object -Property ReceivedBytes,SentBytes -Sum | Measure-Object -Property Sum -Sum).Sum"`;
+                            exec(psCmd, (err2, stdout2) => {
+                                if (!err2 && stdout2) {
+                                    const cb = parseInt(stdout2.trim());
+                                    if (!isNaN(cb)) {
+                                        if (lastTrafficBytes === 0) {
+                                            lastTrafficBytes = cb;
+                                            return;
+                                        }
+                                        const d = cb >= lastTrafficBytes ? (cb - lastTrafficBytes) : 0;
+                                        totalDataProcessed += d;
+                                        mainWindow?.webContents.send('on-traffic-stats', { bps: d, total: totalDataProcessed });
+                                        lastTrafficBytes = cb;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            else {
+                if (lastTrafficBytes !== 0) {
+                    lastTrafficBytes = 0;
+                    mainWindow?.webContents.send('on-traffic-stats', { bps: 0, total: totalDataProcessed });
+                }
+            }
+        }, 1000);
+    }
+    startStatsMonitor();
+    // Watchdog: Проверка связи раз в 30 сек
+    let lastWatchdogStatus = null;
+    const runWatchdog = async () => {
+        if (!isRunning(zapretProc))
+            return;
+        const isOk = await probeTcpHost('www.youtube.com', 3000);
+        if (isOk !== lastWatchdogStatus) {
+            mainWindow?.webContents.send('on-status-event', {
+                ok: isOk,
+                time: new Date().toLocaleTimeString(),
+                msg: isOk ? 'statusConnected' : 'statusDisconnected'
+            });
+            lastWatchdogStatus = isOk;
+        }
+    };
+    setInterval(runWatchdog, 30000);
+    setTimeout(runWatchdog, 2000);
+    // IP Info с перебором сервисов для надежности
+    electron_1.ipcMain.handle('get-ip-info', async () => {
+        const https = require('https');
+        const fetchIP = (url) => new Promise((resolve) => {
+            const req = https.get(url, { timeout: 5000 }, (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', () => {
+                    try {
+                        const json = JSON.parse(data);
+                        // Унифицируем формат
+                        resolve({
+                            ip: json.ip || json.query,
+                            isp: json.isp || json.org || json.asn_org,
+                            city: json.city,
+                            country: json.country_name || json.country
+                        });
+                    }
+                    catch {
+                        resolve(null);
+                    }
+                });
+            });
+            req.on('error', () => resolve(null));
+            req.on('timeout', () => { req.destroy(); resolve(null); });
+        });
+        const services = [
+            'https://ipapi.co/json/',
+            'http://ip-api.com/json/',
+            'https://ipwho.is/',
+            'https://ipinfo.io/json',
+            'https://ifconfig.me/all.json',
+            'https://api.ipify.org?format=json'
+        ];
+        for (const url of services) {
+            const res = await fetchIP(url);
+            if (res && res.ip)
+                return { ok: true, data: res };
+        }
+        return { ok: false };
     });
     // ── Zapret List Manager ────────────────────────────────────
     const LIST_PATH = resolveExternalPath('lists', 'list-general.txt');

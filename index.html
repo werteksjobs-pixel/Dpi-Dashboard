@@ -78,21 +78,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg-base: #020617; 
-      --bg-card: rgba(30, 41, 59, 0.5); 
+      --bg-card: rgba(30, 27, 75, 0.4); 
       --bg-input: rgba(15, 23, 42, 0.6);
       --border: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(59, 130, 246, 0.5);
-      --accent-blue: #3b82f6;
-      --accent-blue-gradient: linear-gradient(135deg, #3b82f6, #0ea5e9);
+      --border-focus: rgba(139, 92, 246, 0.5);
+      --accent-blue: #8b5cf6;
+      --accent-blue-gradient: linear-gradient(135deg, #8b5cf6, #6d28d9);
       --accent-red-gradient: linear-gradient(135deg, #ef4444, #f43f5e);
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-input: #ffffff;
       --bg-titlebar: rgba(2, 6, 23, 0.8);
       --bg-terminal: rgba(0, 0, 0, 0.4);
-      --bg-modal: #020617;
+      --bg-modal: #0f0a1e;
       --bg-row: rgba(255,255,255,0.02);
-      --bg-row-hover: rgba(255,255,255,0.04);
+      --bg-row-hover: rgba(139, 92, 246, 0.08);
       --border-row: rgba(255,255,255,0.05);
       --slider-bg: rgba(255,255,255,0.1);
       --slider-knob: var(--text-secondary);
@@ -141,8 +141,8 @@
     body {
       background: var(--bg-base);
       background-image: 
-        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+        radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(30, 27, 75, 0.2), transparent 25%);
       color: var(--text-primary);
       font-family: 'Inter', sans-serif;
       height: 100vh;
@@ -591,9 +591,9 @@
       justify-content: center;
     }
     .icon-btn:hover {
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.1);
-      transform: rotate(90deg);
+      color: #fff;
+      background: rgba(139, 92, 246, 0.2);
+      transform: scale(1.1);
     }
 
     .modal-overlay {
@@ -642,6 +642,9 @@
       font-size: 16px;
       font-weight: 600;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .modal-body {
@@ -1059,10 +1062,13 @@
 <div class="titlebar">
   <span class="titlebar-title">DPI Dashboard</span>
   <div class="titlebar-controls">
+    <button class="titlebar-btn" id="btn-show-stats" title="Мониторинг сети" style="font-size: 14px;">📊</button>
     <button class="titlebar-btn" id="btn-hosts" title="DNS / Hosts Редиректор" style="font-size: 12px;">🌐</button>
     <button class="titlebar-btn" id="btn-app-settings" title="App Settings" style="font-size: 12px;">⚙️</button>
     <button class="titlebar-btn" id="btn-minimize" title="Minimize">─</button>
-    <button class="titlebar-btn btn-close" id="btn-close" title="Close">✕</button>
+    <button class="titlebar-btn btn-close" id="btn-close" title="Close">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
   </div>
 </div>
 
@@ -1187,8 +1193,16 @@
   <!-- Terminal Output -->
   <div class="log-section">
     <div class="log-header">
-      <span>Terminal Output</span>
-      <span class="log-status-dot">Ready</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-terminal" style="font-size: 10px; opacity: 0.6;"></i>
+        <span>Terminal Output</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="log-status-dot">Ready</span>
+        <button id="btn-clear-logs" class="icon-btn" title="Очистить логи" style="font-size: 10px; opacity: 0.5; padding: 2px 6px;">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
     </div>
     <div id="log-box"></div>
     <div class="log-empty-msg" id="log-empty">
@@ -1203,7 +1217,9 @@
   <div class="modal-content" style="width: 480px;">
     <div class="modal-header">
       <div class="modal-title" data-i18n="tgModalTitle">Настройки TG Proxy</div>
-      <button class="icon-btn" id="tg-modal-close" style="font-size: 20px;">✕</button>
+      <button class="icon-btn" id="tg-modal-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
       
@@ -1266,7 +1282,9 @@
   <div class="modal-content" style="width: 450px;">
     <div class="modal-header">
       <div class="modal-title" data-i18n="zapretModalTitle">Настройки Zapret</div>
-      <button class="icon-btn" id="zapret-modal-close" style="font-size: 20px;">✕</button>
+      <button class="icon-btn" id="zapret-modal-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
       
@@ -1306,6 +1324,7 @@
         <div style="color: var(--text-secondary);">➔</div>
       </div>
 
+
       <div class="setting-row" id="btn-dns-leak" style="cursor: pointer;">
         <div class="setting-icon" style="display: flex; align-items: center; justify-content: center; background: rgba(16, 185, 129, 0.15); color: #10b981;">
           <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M9 12l2 2 4-4"/><path stroke-linecap="round" d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
@@ -1329,7 +1348,9 @@
   <div class="modal-content" style="width: 500px;">
     <div class="modal-header">
       <div class="modal-title">🧩 DNS Leak Test</div>
-      <button class="icon-btn" id="dns-modal-close" style="font-size: 20px;">✕</button>
+      <button class="icon-btn" id="dns-modal-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="modal-body" style="padding: 16px 20px; gap: 8px;">
       <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5;">
@@ -1358,7 +1379,9 @@
   <div class="modal-content" style="width: 500px;">
     <div class="modal-header">
       <div class="modal-title">Редактор list-general.txt</div>
-      <button class="icon-btn" id="list-modal-close" style="font-size: 20px;">✕</button>
+      <button class="icon-btn" id="list-modal-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="modal-body" style="padding: 16px;">
       <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1379,7 +1402,9 @@
   <div class="modal-content" style="width: 500px;">
     <div class="modal-header">
       <div class="modal-title" data-i18n="argsEditorTitle">Редактор аргументов Zapret</div>
-      <button class="icon-btn" id="args-modal-close" style="font-size: 20px;">✕</button>
+      <button class="icon-btn" id="args-modal-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="modal-body" style="padding: 16px;">
       <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 8px;" data-i18n="argsEditorDesc">
@@ -1399,7 +1424,9 @@
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-title">Настройки Приложения</div>
-      <button class="icon-btn" id="app-modal-close" style="font-size: 20px;">✕</button>
+      <button class="icon-btn" id="app-modal-close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="modal-body">
       <div>
@@ -1588,6 +1615,7 @@
   </div>
 </div>
 
+
 <!-- Update Available Modal -->
 <div class="modal-overlay" id="update-modal" style="z-index: 2000;">
   <div class="modal-content" style="width: 420px; padding: 32px 24px;">
@@ -1628,5 +1656,67 @@
 </div>
 
 <script src="build/renderer.js"></script>
+<!-- Network Stats Modal -->
+<div class="modal-overlay" id="stats-modal" style="z-index: 2500;">
+  <div class="modal-content" style="width: 720px; max-width: 95vw; padding: 0; overflow: hidden; background: #0f172a;">
+    <div class="modal-header" style="padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between;">
+      <div class="modal-title" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #fff;">
+        <span style="font-size: 18px;">📊</span> <span data-i18n="monitoringTitle">Мониторинг сети</span>
+      </div>
+      <button class="icon-btn" id="stats-modal-close" style="transform: none; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    
+    <div class="modal-body" style="padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; max-height: 75vh;">
+      <!-- Graph Area -->
+      <div style="background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); padding: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px;">
+          <div>
+            <div style="font-size: 8px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1px;">Скорость трафика (Система)</div>
+            <div id="stats-speed-val" style="font-size: 20px; font-weight: 800; color: var(--accent-blue); font-family: 'JetBrains Mono', monospace;">0.00 <span style="font-size: 11px; font-weight: 400; color: var(--text-secondary);">Mbps</span></div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 8px; color: var(--text-secondary); margin-bottom: 1px;">Всего передано</div>
+            <div id="stats-total-val" style="font-size: 13px; font-weight: 600; color: var(--text-primary);">0.00 MB</div>
+          </div>
+        </div>
+        <canvas id="traffic-chart" style="width: 100%; height: 90px;"></canvas>
+      </div>
+
+      <!-- IP Info Area -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+        <div style="background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); position: relative;">
+          <div style="font-size: 9px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 2px;" data-i18n="monitoringIp">Ваш IP адрес</div>
+          <div id="stats-ip-val" style="font-size: 12px; font-weight: 700; color: #fff; font-family: monospace;">Загрузка...</div>
+          <button id="btn-refresh-ip" class="icon-btn" style="position: absolute; right: 8px; top: 18px; font-size: 10px; opacity: 0.5;">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 9px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 2px;" data-i18n="monitoringIsp">Провайдер</div>
+          <div id="stats-isp-val" style="font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">—</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 9px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 2px;" data-i18n="monitoringLoc">Местоположение</div>
+          <div id="stats-loc-val" style="font-size: 11px; font-weight: 600; color: #fff;">—</div>
+        </div>
+      </div>
+
+      <!-- Expanded History Log & External Speed Test -->
+      <div style="display: flex; flex-direction: column; gap: 8px; min-height: 0; flex: 1;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-size: 10px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;" data-i18n="monitoringHistory">История статусов</div>
+          <button id="btn-openspeedtest" style="background: var(--accent-blue-gradient); color: #fff; border: none; padding: 4px 10px; border-radius: 15px; font-size: 10px; cursor: pointer; transition: all 0.2s; font-weight: 600;">
+            🌐 SpeedTest
+          </button>
+        </div>
+        <div id="history-log" style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; flex: 1; min-height: 120px; max-height: 200px; overflow-y: auto; padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #cbd5e1;">
+          <div style="text-align: center; padding: 20px 0; color: rgba(255,255,255,0.2);" data-i18n="waitingData">Ожидание данных...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

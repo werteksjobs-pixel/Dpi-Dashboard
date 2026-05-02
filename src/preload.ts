@@ -28,4 +28,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getAppVersion: () => ipcRenderer.invoke('get-app-version'),
   onUpdateStatus: (cb: any) => ipcRenderer.on('update-status', (_: any, status: string, version?: string) => cb(status, version)),
   onUpdateDownloadProgress: (cb: any) => ipcRenderer.on('update-download-progress', (_: any, percent: number) => cb(percent)),
+  
+  // Monitoring & Stats
+  onTrafficStats: (cb: any) => ipcRenderer.on('on-traffic-stats', (_: any, data: any) => cb(data)),
+  onStatusEvent:  (cb: any) => ipcRenderer.on('on-status-event', (_: any, data: any) => cb(data)),
+  runSpeedTest:   () => ipcRenderer.invoke('run-speedtest'),
+  getIpInfo:      () => ipcRenderer.invoke('get-ip-info'),
 });

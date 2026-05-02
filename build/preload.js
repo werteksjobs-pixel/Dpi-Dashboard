@@ -29,4 +29,9 @@ electron_1.contextBridge.exposeInMainWorld('electronAPI', {
     getAppVersion: () => electron_1.ipcRenderer.invoke('get-app-version'),
     onUpdateStatus: (cb) => electron_1.ipcRenderer.on('update-status', (_, status, version) => cb(status, version)),
     onUpdateDownloadProgress: (cb) => electron_1.ipcRenderer.on('update-download-progress', (_, percent) => cb(percent)),
+    // Monitoring & Stats
+    onTrafficStats: (cb) => electron_1.ipcRenderer.on('on-traffic-stats', (_, data) => cb(data)),
+    onStatusEvent: (cb) => electron_1.ipcRenderer.on('on-status-event', (_, data) => cb(data)),
+    runSpeedTest: () => electron_1.ipcRenderer.invoke('run-speedtest'),
+    getIpInfo: () => electron_1.ipcRenderer.invoke('get-ip-info'),
 });

@@ -61,7 +61,18 @@ const i18n: Record<string, Record<string, string>> = {
         updateAvailable: '📥 Загрузка...',
         updateLatest: '✅ Последняя версия',
         updateDownloaded: '📦 Готово к установке',
-        updateError: '❌ Ошибка проверки'
+        updateError: '❌ Ошибка проверки',
+        monitoringTitle: 'Мониторинг сети',
+        monitoringHistory: 'История статусов',
+        monitoringSpeed: 'Скорость загрузки',
+        monitoringTraffic: 'Трафик (Всего)',
+        monitoringIp: 'Ваш IP адрес',
+        monitoringIsp: 'Провайдер',
+        monitoringLoc: 'Местоположение',
+        btnFullSpeedTest: '🌐 ПОЛНЫЙ ТЕСТ (OpenSpeedTest)',
+        statusConnected: 'Связь восстановлена',
+        statusDisconnected: 'Потеря связи / Блокировка',
+        waitingData: 'Ожидание данных...'
     },
     en: {
         zapretTitle: 'Zapret Bypass',
@@ -123,7 +134,18 @@ const i18n: Record<string, Record<string, string>> = {
         updateAvailable: '📥 Downloading...',
         updateLatest: '✅ Up to date',
         updateDownloaded: '📦 Ready to install',
-        updateError: '❌ Update error'
+        updateError: '❌ Update error',
+        monitoringTitle: 'Network Monitoring',
+        monitoringHistory: 'Status History',
+        monitoringSpeed: 'Download Speed',
+        monitoringTraffic: 'Traffic (Total)',
+        monitoringIp: 'Your IP Address',
+        monitoringIsp: 'ISP',
+        monitoringLoc: 'Location',
+        btnFullSpeedTest: '🌐 FULL TEST (OpenSpeedTest)',
+        statusConnected: 'Connection restored',
+        statusDisconnected: 'Connection lost / Blocked',
+        waitingData: 'Waiting for data...'
     }
 };
 
@@ -217,6 +239,28 @@ window.addEventListener('DOMContentLoaded', () => {
         
         btnCheckUpdate:  document.getElementById('btn-check-update') as HTMLButtonElement,
         appVersionDisplay: document.getElementById('app-version-display') as HTMLElement,
+
+        // Monitoring Modal
+        statsModal:     document.getElementById('stats-modal') as HTMLElement,
+        statsCloseBtn:  document.getElementById('stats-modal-close') as HTMLButtonElement,
+        showStatsBtn:   document.getElementById('btn-show-stats') as HTMLElement,
+        statsSpeedVal:  document.getElementById('stats-speed-val') as HTMLElement,
+        statsTotalVal:  document.getElementById('stats-total-val') as HTMLElement,
+        historyLog:     document.getElementById('history-log') as HTMLElement,
+        trafficCanvas:  document.getElementById('traffic-chart') as HTMLCanvasElement,
+        runSpeedTestBtn: document.getElementById('btn-run-speedtest') as HTMLButtonElement,
+        speedTestResult: document.getElementById('speedtest-result') as HTMLElement,
+        speedTestWrap:   document.getElementById('speedtest-wrap') as HTMLElement,
+        speedTestStatus: document.getElementById('speedtest-status') as HTMLElement,
+        statsIp:         document.getElementById('stats-ip-val') as HTMLElement,
+        statsIsp:        document.getElementById('stats-isp-val') as HTMLElement,
+        statsLoc:        document.getElementById('stats-loc-val') as HTMLElement,
+        ostModal:        document.getElementById('ost-modal') as HTMLElement,
+        ostIframe:       document.getElementById('ost-iframe') as HTMLIFrameElement,
+        ostOpenBtn:      document.getElementById('btn-openspeedtest') as HTMLButtonElement,
+        ostCloseBtn:     document.getElementById('ost-modal-close') as HTMLButtonElement,
+        btnClearLogs:    document.getElementById('btn-clear-logs') as HTMLButtonElement,
+        btnRefreshIp:    document.getElementById('btn-refresh-ip') as HTMLButtonElement,
     };
 
     const state = { zapret: false, tgproxy: false };
@@ -338,6 +382,17 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    if (els.btnClearLogs) {
+        els.btnClearLogs.onclick = () => {
+            if (els.logBox) {
+                els.logBox.innerHTML = '';
+                // Сбрасываем сообщение о пустых логах
+                const msg = document.getElementById('log-empty');
+                if (msg) msg.style.display = 'block';
+            }
+        };
+    }
+
     api.getStatus();
 
     // Task 2: Dynamic Version Display
@@ -402,6 +457,156 @@ window.addEventListener('DOMContentLoaded', () => {
             els.updateModal?.classList.remove('open');
         };
     }
+
+    // ── Monitoring Logic ─────────────────────────────────────────
+    let trafficData: number[] = new Array(60).fill(0);
+    let chartRunning = false;
+    function drawTrafficChart() {
+        const canvas = els.trafficCanvas;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        // Если окно закрыто - не тратим ресурсы на отрисовку
+        if (!els.statsModal?.classList.contains('open')) {
+            chartRunning = false;
+            return;
+        }
+        chartRunning = true;
+
+        const w = canvas.width = canvas.clientWidth;
+        const h = canvas.height = canvas.clientHeight;
+        
+        ctx.clearRect(0, 0, w, h);
+        
+        // Настройка стиля градиента
+        const gradient = ctx.createLinearGradient(0, 0, 0, h);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+        const maxVal = Math.max(...trafficData, 1024 * 512); // Минимум 512KB для масштаба
+        const step = w / (trafficData.length - 1);
+        
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        
+        for (let i = 0; i < trafficData.length; i++) {
+            const x = i * step;
+            const y = h - (trafficData[i] / maxVal) * (h - 40) - 20;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineJoin = 'round';
+        for (let i = 0; i < trafficData.length; i++) {
+            const x = i * step;
+            const y = h - (trafficData[i] / maxVal) * (h - 40) - 20;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        requestAnimationFrame(drawTrafficChart);
+    }
+
+    const updateIpInfo = async () => {
+        if (els.statsIp) els.statsIp.textContent = 'Обновление...';
+        const res = await (api as any).getIpInfo();
+        if (res && res.ok && res.data) {
+            const d = res.data;
+            if (els.statsIp)  els.statsIp.textContent = d.ip || '—';
+            if (els.statsIsp) els.statsIsp.textContent = d.isp || '—';
+            if (els.statsLoc) els.statsLoc.textContent = `${d.city || ''}${d.city && d.country ? ', ' : ''}${d.country || ''}` || '—';
+        } else {
+            if (els.statsIp) els.statsIp.textContent = 'Ошибка';
+        }
+    };
+
+    if (els.showStatsBtn) {
+        els.showStatsBtn.onclick = () => {
+            els.statsModal?.classList.add('open');
+            if (!chartRunning) drawTrafficChart();
+            updateIpInfo();
+        };
+    }
+    if (els.statsCloseBtn) {
+        els.statsCloseBtn.onclick = () => els.statsModal?.classList.remove('open');
+    }
+    if (els.btnRefreshIp) {
+        els.btnRefreshIp.onclick = () => {
+            const icon = els.btnRefreshIp!.querySelector('i');
+            if (icon) icon.classList.add('spinning');
+            updateIpInfo().finally(() => {
+                if (icon) icon.classList.remove('spinning');
+            });
+        };
+    }
+
+    api.onTrafficStats((data: any) => {
+        const mbps = (data.bps * 8) / 1000000;
+        if (els.statsSpeedVal) els.statsSpeedVal.innerHTML = `${mbps.toFixed(2)} <span style="font-size: 16px; font-weight: 400; color: var(--text-secondary);">Mbps</span>`;
+        if (els.statsTotalVal) els.statsTotalVal.textContent = `${(data.total / 1048576).toFixed(2)} MB`;
+        
+        trafficData.push(data.bps);
+        if (trafficData.length > 60) trafficData.shift();
+    });
+
+    api.onStatusEvent((data: any) => {
+        if (els.historyLog) {
+            const lang = (document.getElementById('app-lang') as HTMLSelectElement)?.value as 'ru' | 'en' || 'ru';
+            // Очищаем заглушку при первом реальном событии
+            if (els.historyLog.querySelector('div[style*="rgba(255,255,255,0.2)"]') || els.historyLog.innerText.includes('Ожидание данных')) {
+                els.historyLog.innerHTML = '';
+            }
+
+            const div = document.createElement('div');
+            div.style.marginBottom = '8px';
+            div.style.padding = '4px 0';
+            div.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
+            const color = data.ok ? '#10b981' : '#ef4444';
+            const msg = i18n[lang][data.msg] || data.msg;
+            div.innerHTML = `<span style="color:var(--text-secondary)">[${data.time}]</span> <span style="color:${color}; font-weight:700;">${msg}</span>`;
+            
+            els.historyLog.prepend(div);
+        }
+    });
+
+    if (els.runSpeedTestBtn) {
+        els.runSpeedTestBtn.onclick = async () => {
+            els.runSpeedTestBtn!.disabled = true;
+            els.runSpeedTestBtn!.textContent = 'ТЕСТИРУЕМ...';
+            els.speedTestStatus!.textContent = 'Загрузка 10MB через Cloudflare...';
+            els.speedTestWrap!.style.display = 'none';
+            
+            const res = await api.runSpeedTest();
+            els.runSpeedTestBtn!.disabled = false;
+            els.runSpeedTestBtn!.textContent = 'ЗАПУСТИТЬ ТЕСТ';
+            
+            if (res.ok) {
+                els.speedTestStatus!.textContent = 'Тест завершен';
+                els.speedTestWrap!.style.display = 'block';
+                els.speedTestResult!.textContent = res.mbps;
+            } else {
+                els.speedTestStatus!.textContent = 'Ошибка: ' + res.error;
+            }
+        };
+    }
+
+    // OpenSpeedTest — открываем в браузере (iframe запрещён политикой сайта)
+    if (els.ostOpenBtn) {
+        els.ostOpenBtn.onclick = () => {
+            api.openUrl('https://openspeedtest.com/speedtest');
+        };
+    }
+
 
     // Theme toggle
     const updateTheme = () => {
