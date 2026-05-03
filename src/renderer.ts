@@ -1,4 +1,7 @@
 // renderer.ts - Безопасная логика
+const { createClient } = (window as any).supabase;
+
+const supabase = createClient('https://qzhgrafptwxdktjcslkv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6aGdyYWZwdHd4ZGt0amNzbGt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MTM3MTMsImV4cCI6MjA5MzM4OTcxM30.kgzgyLQHTrUBjeVrOxPdD3V1RoI2Un2AQLBatV06Vr8');
 
 const i18n: Record<string, Record<string, string>> = {
     ru: {
@@ -180,6 +183,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2200);
 
     const api = (window as any).electronAPI;
+
+    if (!api) {
+        alert("CRITICAL ERROR: 'electronAPI' not found! Preload script failed to load.");
+        return;
+    }
     if (!api) {
         alert("CRITICAL ERROR: 'electronAPI' not found! Preload script failed to load.");
         return;
@@ -261,9 +269,399 @@ window.addEventListener('DOMContentLoaded', () => {
         ostCloseBtn:     document.getElementById('ost-modal-close') as HTMLButtonElement,
         btnClearLogs:    document.getElementById('btn-clear-logs') as HTMLButtonElement,
         btnRefreshIp:    document.getElementById('btn-refresh-ip') as HTMLButtonElement,
+
+        // Auth & Views
+        authView:        document.getElementById('auth-view') as HTMLElement,
+        dashboardView:   document.getElementById('dashboard-view') as HTMLElement,
+        
+        authLoginView:   document.getElementById('auth-login-view') as HTMLElement,
+        authRegisterView:document.getElementById('auth-register-view') as HTMLElement,
+        btnShowRegister: document.getElementById('btn-show-register') as HTMLButtonElement,
+        btnShowLogin:    document.getElementById('btn-show-login') as HTMLButtonElement,
+
+        authEmailLogin:       document.getElementById('auth-email-login') as HTMLInputElement,
+        authPasswordLogin:    document.getElementById('auth-password-login') as HTMLInputElement,
+        btnLogin:        document.getElementById('btn-login') as HTMLButtonElement,
+        authErrorLogin:       document.getElementById('auth-error-login') as HTMLElement,
+
+        authEmailRegister:       document.getElementById('auth-email-register') as HTMLInputElement,
+        authPasswordRegister:    document.getElementById('auth-password-register') as HTMLInputElement,
+        btnRegister:     document.getElementById('btn-register') as HTMLButtonElement,
+        authErrorRegister:       document.getElementById('auth-error-register') as HTMLElement,
+        authMouseGlow:           document.getElementById('auth-mouse-glow') as HTMLElement,
+        authBtnMinimize:         document.getElementById('auth-btn-minimize') as HTMLButtonElement,
+        authBtnClose:            document.getElementById('auth-btn-close') as HTMLButtonElement,
+
+        btnLogout:        document.getElementById('btn-logout-profile') as HTMLButtonElement,
+        authRemember:    document.getElementById('auth-remember') as HTMLInputElement,
+
+        // Profile
+        btnProfile:      document.getElementById('btn-profile') as HTMLButtonElement,
+        profileModal:    document.getElementById('profile-modal') as HTMLElement,
+        profileModalClose: document.getElementById('profile-modal-close') as HTMLButtonElement,
+        profileModalSave:  document.getElementById('profile-modal-save') as HTMLButtonElement,
+        profileAvatarContainer: document.getElementById('profile-avatar-container') as HTMLElement,
+        profileAvatarInput: document.getElementById('profile-avatar-input') as HTMLInputElement,
+        profileNicknameInput: document.getElementById('profile-nickname-input') as HTMLInputElement,
+        profileEmailInput: document.getElementById('profile-email-input') as HTMLInputElement,
+        profileDateInput: document.getElementById('profile-date-input') as HTMLInputElement,
+        
+        greetingText:    document.getElementById('greeting-text') as HTMLElement,
+        greetingAvatar:  document.getElementById('greeting-avatar') as HTMLImageElement,
+        greetingFallback: document.getElementById('greeting-avatar-fallback') as HTMLElement,
+        titlebarAvatar:  document.getElementById('titlebar-avatar') as HTMLImageElement,
+        titlebarFallback: document.getElementById('titlebar-avatar-fallback') as HTMLElement,
+        profileModalAvatar: document.getElementById('profile-modal-avatar') as HTMLImageElement,
+        profileModalFallback: document.getElementById('profile-modal-avatar-fallback') as HTMLElement,
+        
+        loadingOverlay:  document.getElementById('loading-overlay') as HTMLElement,
     };
 
     const state = { zapret: false, tgproxy: false };
+
+    const showDashboard = async () => {
+        if (els.authView) els.authView.style.display = 'none';
+        
+        // Показываем оверлей загрузки с приветствием
+        await initProfileData();
+        if (els.loadingOverlay) {
+            els.loadingOverlay.style.display = 'flex';
+            // Небольшая задержка для применения display:flex перед изменением opacity
+            setTimeout(() => {
+                els.loadingOverlay.style.opacity = '1';
+            }, 50);
+
+            // Держим анимацию 2.5 секунды
+            setTimeout(() => {
+                els.loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    els.loadingOverlay.style.display = 'none';
+                    if (els.dashboardView) els.dashboardView.style.display = 'block';
+                }, 500); // Ждем завершения transition: opacity
+            }, 2500);
+        } else {
+            // Фолбэк если оверлея нет
+            if (els.dashboardView) els.dashboardView.style.display = 'block';
+        }
+        
+        // Принудительно убираем старый сплэш (если был)
+        const splash = document.getElementById('splash');
+        if (splash) splash.classList.add('hidden');
+    };
+
+    const showAuth = () => {
+        if (els.authView) els.authView.style.display = 'flex';
+        if (els.dashboardView) els.dashboardView.style.display = 'none';
+    };
+
+    // --- Premium Interactive Background ---
+    if (els.authView && els.authMouseGlow) {
+        els.authView.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            els.authMouseGlow!.style.left = `${x}px`;
+            els.authMouseGlow!.style.top = `${y}px`;
+            els.authMouseGlow!.style.opacity = '1';
+        });
+        
+        els.authView.addEventListener('mouseleave', () => {
+            els.authMouseGlow!.style.opacity = '0';
+        });
+    }
+
+    // --- Window Controls Handlers ---
+    if (els.authBtnMinimize) {
+        els.authBtnMinimize.addEventListener('click', () => {
+            api.minimizeWindow();
+        });
+    }
+    if (els.authBtnClose) {
+        els.authBtnClose.addEventListener('click', () => {
+            api.closeWindow();
+        });
+    }
+
+    // --- Profile Logic ---
+    let currentAvatarDataUrl = localStorage.getItem('profile_avatar') || '';
+    let currentNickname = localStorage.getItem('profile_nickname') || '';
+
+    const updateProfileUI = () => {
+        const hour = new Date().getHours();
+        let greeting = 'Добрый день';
+        if (hour >= 5 && hour < 12) greeting = 'Доброе утро';
+        else if (hour >= 12 && hour < 18) greeting = 'Добрый день';
+        else if (hour >= 18 && hour < 23) greeting = 'Добрый вечер';
+        else greeting = 'Доброй ночи';
+
+        const displayNick = currentNickname || 'Пользователь';
+        if (els.greetingText) els.greetingText.textContent = `${greeting}, ${displayNick}!`;
+
+        const applyAvatar = (imgEl: HTMLImageElement, fallbackEl: HTMLElement) => {
+            if (currentAvatarDataUrl) {
+                imgEl.src = currentAvatarDataUrl;
+                imgEl.style.display = 'block';
+                if(fallbackEl) fallbackEl.style.display = 'none';
+            } else {
+                imgEl.style.display = 'none';
+                if(fallbackEl) {
+                    fallbackEl.style.display = 'block';
+                    fallbackEl.textContent = displayNick.charAt(0).toUpperCase();
+                }
+            }
+        };
+
+        if (els.greetingAvatar && els.greetingFallback) applyAvatar(els.greetingAvatar, els.greetingFallback);
+        if (els.titlebarAvatar && els.titlebarFallback) applyAvatar(els.titlebarAvatar, els.titlebarFallback);
+        if (els.profileModalAvatar && els.profileModalFallback) applyAvatar(els.profileModalAvatar, els.profileModalFallback);
+    };
+
+    const initProfileData = async () => {
+        updateProfileUI();
+        if (els.profileNicknameInput) els.profileNicknameInput.value = currentNickname;
+
+        // Попытка получить данные из Supabase
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session && session.user) {
+            if (els.profileEmailInput) els.profileEmailInput.value = session.user.email || '';
+            if (els.profileDateInput && session.user.created_at) {
+                const date = new Date(session.user.created_at);
+                els.profileDateInput.value = date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+        }
+    };
+
+    // Fallback click listener for profile button (in case els mapping fails)
+    const fallbackProfileBtn = document.getElementById('btn-profile');
+    if (fallbackProfileBtn) {
+        fallbackProfileBtn.addEventListener('click', () => {
+            console.log('Fallback profile button clicked');
+            const modal = document.getElementById('profile-modal');
+            if (modal) modal.classList.add('open');
+        });
+    }
+
+
+    if (els.btnLogout) {
+        els.btnLogout.addEventListener('click', async () => {
+            console.log('Logout button in profile modal clicked');
+            try {
+                await supabase.auth.signOut();
+            } catch (e) {
+                console.error('Error during sign out:', e);
+            }
+            // Hide modal and show auth screen
+            if (els.profileModal) els.profileModal.classList.remove('open');
+            showAuth();
+        });
+    }
+
+    // Existing profile modal close handler remains unchanged
+    if (els.profileModalClose) {
+        els.profileModalClose.addEventListener('click', () => {
+            if (els.profileModal) els.profileModal.classList.remove('open');
+        });
+    }
+
+
+    if (els.profileAvatarContainer && els.profileAvatarInput) {
+        els.profileAvatarContainer.addEventListener('click', () => {
+            els.profileAvatarInput.click();
+        });
+
+        els.profileAvatarInput.addEventListener('change', (e: any) => {
+            const file = e.target.files?.[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    if (ev.target?.result) {
+                        currentAvatarDataUrl = ev.target.result as string;
+                        updateProfileUI();
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    if (els.profileModalSave) {
+        els.profileModalSave.addEventListener('click', () => {
+            currentNickname = els.profileNicknameInput?.value || '';
+            localStorage.setItem('profile_nickname', currentNickname);
+            localStorage.setItem('profile_avatar', currentAvatarDataUrl);
+            updateProfileUI();
+            
+            const origText = els.profileModalSave.textContent;
+            els.profileModalSave.textContent = 'Сохранено ✓';
+            els.profileModalSave.style.background = '#10b981';
+            
+            setTimeout(() => {
+                if (els.profileModal) els.profileModal.classList.remove('open');
+                els.profileModalSave.textContent = origText;
+                els.profileModalSave.style.background = 'var(--accent-blue-gradient)';
+            }, 800);
+        });
+    }
+
+    // --- Supabase Auth View Toggles ---
+    if (els.btnShowRegister) {
+        els.btnShowRegister.addEventListener('click', () => {
+            if (els.authLoginView) els.authLoginView.classList.add('hidden-left');
+            if (els.authRegisterView) els.authRegisterView.classList.add('active');
+            if (els.authErrorLogin) els.authErrorLogin.textContent = '';
+            
+            // Очищаем поля при переходе
+            if (els.authEmailRegister) els.authEmailRegister.value = '';
+            if (els.authPasswordRegister) els.authPasswordRegister.value = '';
+        });
+    }
+
+    if (els.btnShowLogin) {
+        els.btnShowLogin.addEventListener('click', () => {
+            if (els.authLoginView) els.authLoginView.classList.remove('hidden-left');
+            if (els.authRegisterView) els.authRegisterView.classList.remove('active');
+            if (els.authErrorRegister) els.authErrorRegister.textContent = '';
+            
+            // Очищаем поля при переходе
+            if (els.authEmailLogin) els.authEmailLogin.value = '';
+            if (els.authPasswordLogin) els.authPasswordLogin.value = '';
+        });
+    }
+
+    // --- Supabase Auth Handlers ---
+    if (els.btnLogin) {
+        els.btnLogin.addEventListener('click', async () => {
+            const email = els.authEmailLogin?.value;
+            const password = els.authPasswordLogin?.value;
+            
+            if (!email || !password) {
+                if (els.authErrorLogin) els.authErrorLogin.textContent = 'Please fill in all fields';
+                return;
+            }
+            
+            // Защита от двойного клика и визуальный фидбек
+            const originalText = els.btnLogin!.textContent;
+            els.btnLogin!.disabled = true;
+            els.btnLogin!.textContent = 'Signing in...';
+            if (els.authErrorLogin) els.authErrorLogin.textContent = '';
+            
+            try {
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
+                
+                if (error) {
+                    if (els.authErrorLogin) els.authErrorLogin.textContent = error.message;
+                    els.btnLogin!.disabled = false;
+                    els.btnLogin!.textContent = originalText;
+                } else {
+                    showDashboard();
+                }
+            } catch (err: any) {
+                console.error('Login crash:', err);
+                if (els.authErrorLogin) els.authErrorLogin.textContent = 'Network error. Please check your connection.';
+                els.btnLogin!.disabled = false;
+                els.btnLogin!.textContent = originalText;
+            }
+        });
+    }
+
+    if (els.btnRegister) {
+        els.btnRegister.addEventListener('click', async () => {
+            const email = els.authEmailRegister?.value;
+            const password = els.authPasswordRegister?.value;
+            
+            if (!email || !password) {
+                if (els.authErrorRegister) els.authErrorRegister.textContent = 'Please fill in all fields';
+                return;
+            }
+            
+            // Защита от двойного клика
+            const originalText = els.btnRegister!.textContent;
+            els.btnRegister!.disabled = true;
+            els.btnRegister!.textContent = 'Creating account...';
+            if (els.authErrorRegister) {
+                els.authErrorRegister.style.color = '#ef4444';
+                els.authErrorRegister.textContent = '';
+            }
+            
+            try {
+                const { error, data } = await supabase.auth.signUp({ email, password });
+                
+                if (error) {
+                    if (els.authErrorRegister) els.authErrorRegister.textContent = error.message;
+                    els.btnRegister!.disabled = false;
+                    els.btnRegister!.textContent = originalText;
+                } else {
+                    console.log('Register success:', data);
+                    
+                    // Если подтверждение почты отключено, Supabase сразу вернет сессию
+                    if (data.session) {
+                        if (els.authErrorRegister) {
+                            els.authErrorRegister.style.color = '#10b981';
+                            els.authErrorRegister.textContent = 'Welcome! Redirecting...';
+                        }
+                        els.btnRegister!.textContent = 'Success!';
+                        
+                        // Небольшая задержка для визуального подтверждения и переход
+                        setTimeout(() => {
+                            showDashboard();
+                        }, 800);
+                    } else {
+                        // Если всё же нужно подтверждение (на всякий случай)
+                        if (els.authErrorRegister) {
+                            els.authErrorRegister.style.color = '#10b981';
+                            els.authErrorRegister.textContent = 'Check your email for confirmation!';
+                        }
+                        els.btnRegister!.textContent = 'Check Email';
+                    }
+                }
+            } catch (err: any) {
+                console.error('Register crash:', err);
+                if (els.authErrorRegister) els.authErrorRegister.textContent = 'Network error. Connection reset.';
+                els.btnRegister!.disabled = false;
+                els.btnRegister!.textContent = originalText;
+            }
+        });
+    }
+
+    if (els.btnLogout) {
+        els.btnLogout.addEventListener('click', async () => {
+            console.log('Logout clicked, clearing session...');
+            try {
+                // Принудительно показываем экран входа сразу для лучшего UX
+                showAuth();
+                
+                await supabase.auth.signOut();
+                
+                // Очищаем поля
+                if (els.authEmailLogin) els.authEmailLogin.value = '';
+                if (els.authPasswordLogin) els.authPasswordLogin.value = '';
+                if (els.authErrorLogin) els.authErrorLogin.textContent = '';
+                if (els.authEmailRegister) els.authEmailRegister.value = '';
+                if (els.authPasswordRegister) els.authPasswordRegister.value = '';
+                if (els.authErrorRegister) els.authErrorRegister.textContent = '';
+                
+                // Сбрасываем вид на логин
+                if (els.authLoginView) els.authLoginView.classList.remove('hidden-left');
+                if (els.authRegisterView) els.authRegisterView.classList.remove('active');
+                
+                console.log('Supabase session cleared.');
+            } catch (err) {
+                console.error('Logout error:', err);
+                showAuth(); 
+            }
+        });
+    }
+
+    // Check Initial Session
+    const checkSession = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            showDashboard();
+        } else {
+            showAuth();
+        }
+    };
+
+    checkSession();
 
     // Функция отрисовки логов
     api.onLog((p: any) => {

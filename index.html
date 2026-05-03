@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://qzhgrafptwxdktjcslkv.supabase.co; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:;" />
   <title>DPI Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     /* ── Splash Screen ──────────────────────────────────────────────── */
     #splash {
@@ -490,7 +491,7 @@
 
     /* ── Log Terminal ────────────────────────────────────────────── */
     .log-section {
-      flex: 1;
+      height: 320px;
       background: var(--bg-terminal);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -498,9 +499,11 @@
       border-radius: var(--radius);
       display: flex;
       flex-direction: column;
-      min-height: 0;
       position: relative;
       box-shadow: inset 0 2px 15px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      margin-top: 10px;
+      overflow: hidden;
     }
 
     .log-header {
@@ -540,13 +543,17 @@
 
     #log-box {
       flex: 1;
-      padding: 20px;
-      font-family: 'JetBrains Mono', Consolas, monospace;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
-      line-height: 1.7;
-      overflow-y: auto;
-      color: var(--text-primary);
-      white-space: pre-wrap;
+      line-height: 1.6;
+      color: #cbd5e1;
+      overflow-y: auto !important;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      scroll-behavior: smooth;
     }
 
     #log-box::-webkit-scrollbar { width: 8px; }
@@ -833,6 +840,8 @@
     }
     .hosts-status.ok { background: rgba(16,185,129,0.1); color: #10b981; display: block; }
     .hosts-status.err { background: rgba(239,68,68,0.1); color: #ef4444; display: block; }
+    
+    /* Terminal logs fixed */
 
     /* ── Strategy Scanner Modal ──────────────────────────────── */
     .scan-modal-content {
@@ -1055,13 +1064,633 @@
       border: 1px solid var(--border);
     }
     .btn-ghost:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); }
+
+    /* --- Auth View Styles (Ultra Premium Redesign) --- */
+    #auth-view {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      background: #030712;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 5000;
+      overflow: hidden;
+    }
+
+    /* Grain Texture Overlay */
+    #auth-view::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Interactive Mouse Glow Layer */
+    .auth-mouse-glow {
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+      transition: opacity 1s ease;
+    }
+
+    /* Background orbs - FIXED VISIBILITY (no screen blend mode) */
+    .auth-bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 2;
+      opacity: 0.7;
+      will-change: transform;
+    }
+    .auth-bg-orb--1 {
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, rgba(109, 40, 217, 0.3) 40%, transparent 75%);
+      top: -200px; right: -150px;
+      animation: orbFloatPremium1 40s infinite alternate ease-in-out;
+    }
+    .auth-bg-orb--2 {
+      width: 1000px; height: 1000px;
+      background: radial-gradient(circle, rgba(67, 56, 202, 0.5) 0%, rgba(49, 46, 129, 0.25) 45%, transparent 75%);
+      bottom: -300px; left: -200px;
+      animation: orbFloatPremium2 45s infinite alternate-reverse ease-in-out;
+    }
+    .auth-bg-orb--3 {
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(13, 148, 136, 0.45) 0%, rgba(6, 95, 70, 0.2) 40%, transparent 75%);
+      top: 10%; left: 10%;
+      animation: orbFloatPremium3 35s infinite alternate ease-in-out;
+    }
+    .auth-bg-orb--4 {
+      width: 850px; height: 850px;
+      background: radial-gradient(circle, rgba(219, 39, 119, 0.5) 0%, rgba(157, 23, 77, 0.25) 40%, transparent 75%);
+      bottom: 0%; right: 0%;
+      animation: orbFloatPremium1 30s infinite alternate-reverse ease-in-out;
+      animation-delay: -5s;
+    }
+    .auth-bg-orb--5 {
+      width: 950px; height: 950px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.5) 0%, rgba(91, 33, 182, 0.25) 40%, transparent 75%);
+      top: -150px; left: -100px;
+      animation: orbFloatPremium2 38s infinite alternate ease-in-out;
+      animation-delay: -10s;
+    }
+    .auth-bg-orb--6 {
+      width: 750px; height: 750px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.45) 0%, rgba(67, 56, 202, 0.2) 40%, transparent 75%);
+      bottom: 20%; left: -100px;
+      animation: orbFloatPremium3 25s infinite alternate-reverse ease-in-out;
+      animation-delay: -2s;
+    }
+    .auth-bg-orb--7 {
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(192, 38, 211, 0.4) 0%, rgba(134, 25, 143, 0.2) 40%, transparent 75%);
+      top: 30%; right: -150px;
+      animation: orbFloatPremium2 22s infinite alternate ease-in-out;
+      animation-delay: -8s;
+    }
+    .auth-bg-orb--8 {
+      width: 880px; height: 880px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.45) 0%, rgba(2, 132, 199, 0.2) 40%, transparent 75%);
+      bottom: -200px; right: 20%;
+      animation: orbFloatPremium1 28s infinite alternate ease-in-out;
+      animation-delay: -12s;
+    }
+
+    @keyframes orbFloatPremium1 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(150px, 100px) scale(1.1) rotate(45deg); }
+      100% { transform: translate(-100px, 200px) scale(0.9) rotate(-45deg); }
+    }
+    @keyframes orbFloatPremium2 {
+      0% { transform: translate(0, 0) scale(1.1); }
+      50% { transform: translate(-200px, -150px) scale(0.9); }
+      100% { transform: translate(100px, -50px) scale(1.2); }
+    }
+    @keyframes orbFloatPremium3 {
+      0% { transform: translate(0, 0) opacity(0.3); }
+      50% { transform: translate(200px, -200px) opacity(0.6); }
+      100% { transform: translate(-150px, 150px) opacity(0.3); }
+    }
+
+    /* Floating particles */
+    .auth-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .auth-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: particleRise linear infinite;
+    }
+    .auth-particle:nth-child(1)  { left: 10%; animation-duration: 12s; animation-delay: 0s;   width: 8px;  height: 8px;  background: rgba(139, 92, 246, 1);  box-shadow: 0 0 8px 3px rgba(139, 92, 246, 0.8); }
+    .auth-particle:nth-child(2)  { left: 25%; animation-duration: 9s;  animation-delay: -2s;  width: 6px;  height: 6px;  background: rgba(192, 38, 211, 1);  box-shadow: 0 0 6px 2px rgba(192, 38, 211, 0.8); }
+    .auth-particle:nth-child(3)  { left: 40%; animation-duration: 15s; animation-delay: -5s;  width: 10px; height: 10px; background: rgba(99, 102, 241, 1);  box-shadow: 0 0 10px 4px rgba(99, 102, 241, 0.8); }
+    .auth-particle:nth-child(4)  { left: 55%; animation-duration: 11s; animation-delay: -3s;  width: 7px;  height: 7px;  background: rgba(6, 182, 212, 1);   box-shadow: 0 0 8px 3px rgba(6, 182, 212, 0.8); }
+    .auth-particle:nth-child(5)  { left: 70%; animation-duration: 13s; animation-delay: -7s;  width: 8px;  height: 8px;  background: rgba(219, 39, 119, 1);  box-shadow: 0 0 8px 3px rgba(219, 39, 119, 0.8); }
+    .auth-particle:nth-child(6)  { left: 85%; animation-duration: 10s; animation-delay: -1s;  width: 9px;  height: 9px;  background: rgba(139, 92, 246, 1);  box-shadow: 0 0 10px 4px rgba(139, 92, 246, 0.8); }
+    .auth-particle:nth-child(7)  { left: 15%; animation-duration: 14s; animation-delay: -6s;  width: 6px;  height: 6px;  background: rgba(59, 130, 246, 1);  box-shadow: 0 0 6px 2px rgba(59, 130, 246, 0.8); }
+    .auth-particle:nth-child(8)  { left: 60%; animation-duration: 8s;  animation-delay: -4s;  width: 10px; height: 10px; background: rgba(124, 58, 237, 1);  box-shadow: 0 0 12px 5px rgba(124, 58, 237, 0.8); }
+    .auth-particle:nth-child(9)  { left: 90%; animation-duration: 16s; animation-delay: -8s;  width: 7px;  height: 7px;  background: rgba(14, 165, 233, 1);  box-shadow: 0 0 8px 3px rgba(14, 165, 233, 0.8); }
+    .auth-particle:nth-child(10) { left: 35%; animation-duration: 11s; animation-delay: -2s;  width: 8px;  height: 8px;  background: rgba(167, 139, 250, 1); box-shadow: 0 0 8px 3px rgba(167, 139, 250, 0.8); }
+
+    @keyframes particleRise {
+      0%   { bottom: -5%;  opacity: 0; transform: translateX(0px) scale(0.5); }
+      10%  { opacity: 1;   transform: translateX(10px) scale(1); }
+      50%  { transform: translateX(-15px) scale(1.1); }
+      90%  { opacity: 1;   transform: translateX(5px) scale(0.9); }
+      100% { bottom: 105%; opacity: 0; transform: translateX(0px) scale(0.5); }
+    }
+
+    /* Grid overlay */
+    .auth-grid-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 70%);
+    }
+
+    /* Auth card — glassmorphism with gradient border */
+    .auth-card {
+      position: relative;
+      width: 400px;
+      padding: 40px;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      text-align: center;
+      z-index: 100; 
+      -webkit-app-region: no-drag; /* Added to allow interaction */
+      animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      box-shadow:
+        0 32px 64px -16px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(139, 92, 246, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 29px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), transparent 40%, transparent 60%, rgba(59, 130, 246, 0.3));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+        filter: blur(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    /* Logo animation */
+    .auth-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      animation: logoAppear 0.6s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+      position: relative;
+    }
+    .auth-logo::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 24px;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), transparent) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+    @keyframes logoAppear {
+      from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+      to { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    @keyframes logoPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    .auth-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textSlideUp 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .auth-subtitle {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 32px;
+      line-height: 1.5;
+      animation: textSlideUp 0.6s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes textSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Separator line */
+    .auth-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), transparent);
+      margin-bottom: 28px;
+      animation: textSlideUp 0.6s 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .auth-input-group {
+      margin-bottom: 18px;
+      text-align: left;
+      animation: formFieldAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .auth-input-group:nth-child(5) { animation-delay: 0.5s; }
+    .auth-input-group:nth-child(6) { animation-delay: 0.6s; }
+    .auth-input-group:nth-child(7) { animation-delay: 0.65s; }
+
+    @keyframes formFieldAppear {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .auth-input-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .auth-input {
+      width: 100%;
+      background: rgba(2, 6, 23, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 13px 16px;
+      color: #f1f5f9;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .auth-input::placeholder {
+      color: #334155;
+    }
+    .auth-input:focus {
+      outline: none;
+      border-color: rgba(139, 92, 246, 0.5);
+      background: rgba(139, 92, 246, 0.04);
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1), 0 0 20px rgba(139, 92, 246, 0.05);
+    }
+    .auth-input:hover:not(:focus) {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Remember me checkbox */
+    .auth-remember-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: -6px 0 20px 2px;
+      animation: formFieldAppear 0.5s 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .auth-remember-row input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 5px;
+      background: rgba(2, 6, 23, 0.5);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .auth-remember-row input[type="checkbox"]:checked {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      border-color: #8b5cf6;
+      box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+    }
+    .auth-remember-row input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      left: 3px;
+      top: 0px;
+    }
+    .auth-remember-row label {
+      font-size: 12px;
+      color: #64748b;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s;
+    }
+    .auth-remember-row label:hover {
+      color: #94a3b8;
+    }
+
+    .auth-error {
+      font-size: 12px;
+      color: #ef4444;
+      margin-top: 16px;
+      min-height: 18px;
+      animation: textSlideUp 0.3s ease both;
+    }
+
+    /* Primary button — gradient with shine effect */
+    .auth-btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9, #7c3aed);
+      background-size: 200% 200%;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.02em;
+      animation: formFieldAppear 0.5s 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .auth-btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s;
+    }
+    .auth-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2);
+      background-position: 100% 0;
+    }
+    .auth-btn-primary:hover::before { left: 100%; }
+    .auth-btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Secondary button — outline with glow */
+    .auth-btn-secondary {
+      width: 100%;
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: formFieldAppear 0.5s 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .auth-btn-secondary:hover {
+      background: rgba(139, 92, 246, 0.06);
+      color: #e2e8f0;
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+      transform: translateY(-1px);
+    }
+    .auth-btn-secondary:active { transform: translateY(0); }
+
+    /* Version watermark */
+    .auth-version {
+      margin-top: 24px;
+      font-size: 10px;
+      color: #334155;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: textSlideUp 0.5s 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Forms container for sliding animation */
+    .auth-forms-container {
+      position: relative;
+      width: 100%;
+      height: 450px; 
+      overflow: hidden;
+    }
+    
+    .auth-form-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    #auth-login-view {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #auth-login-view.hidden-left {
+      transform: translateX(-50%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #auth-register-view {
+      transform: translateX(50%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #auth-register-view.active {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body>
 
+<div id="auth-view" style="-webkit-app-region: drag;">
+  <!-- Window Controls for Auth View -->
+  <div style="position: absolute; top: 12px; right: 12px; display: flex; gap: 8px; z-index: 10000; -webkit-app-region: no-drag;">
+    <button id="auth-btn-minimize" style="background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+      <span style="margin-top: -4px;">─</span>
+    </button>
+    <button id="auth-btn-close" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+      ✕
+    </button>
+  </div>
+
+  <div class="auth-mouse-glow" id="auth-mouse-glow"></div>
+  <!-- Animated background elements -->
+  <div class="auth-bg-orb auth-bg-orb--1"></div>
+  <div class="auth-bg-orb auth-bg-orb--2"></div>
+  <div class="auth-bg-orb auth-bg-orb--3"></div>
+  <div class="auth-bg-orb auth-bg-orb--4"></div>
+  <div class="auth-bg-orb auth-bg-orb--5"></div>
+  <div class="auth-bg-orb auth-bg-orb--6"></div>
+  <div class="auth-bg-orb auth-bg-orb--7"></div>
+  <div class="auth-bg-orb auth-bg-orb--8"></div>
+  <div class="auth-grid-overlay"></div>
+  <div class="auth-particles">
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+    <div class="auth-particle"></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-logo">🛡️</div>
+    
+    <div class="auth-forms-container">
+      <!-- Login View -->
+      <div id="auth-login-view" class="auth-form-view">
+        <div class="auth-title">Welcome Back</div>
+        <div class="auth-subtitle">Sign in to access your network<br>orchestration dashboard</div>
+        <div class="auth-separator"></div>
+
+        <div class="auth-input-group">
+          <label>Email Address</label>
+          <input type="email" id="auth-email-login" class="auth-input" placeholder="name@example.com" autocomplete="off">
+        </div>
+        
+        <div class="auth-input-group">
+          <label>Password</label>
+          <input type="password" id="auth-password-login" class="auth-input" placeholder="••••••••" autocomplete="off">
+        </div>
+
+        <div class="auth-remember-row">
+          <input type="checkbox" id="auth-remember" checked>
+          <label for="auth-remember">Remember me on this device</label>
+        </div>
+
+        <button id="btn-login" class="auth-btn-primary">Sign In</button>
+        <button id="btn-show-register" class="auth-btn-secondary">Create Account</button>
+        
+        <div id="auth-error-login" class="auth-error"></div>
+      </div>
+
+      <!-- Register View -->
+      <div id="auth-register-view" class="auth-form-view">
+        <div class="auth-title">Create Account</div>
+        <div class="auth-subtitle">Join us to access your network<br>orchestration dashboard</div>
+        <div class="auth-separator"></div>
+
+        <div class="auth-input-group">
+          <label>Email Address</label>
+          <input type="email" id="auth-email-register" class="auth-input" placeholder="name@example.com" autocomplete="off">
+        </div>
+        
+        <div class="auth-input-group">
+          <label>Password</label>
+          <input type="password" id="auth-password-register" class="auth-input" placeholder="••••••••" autocomplete="off">
+        </div>
+
+        <div style="height: 18px;"></div> <!-- Reduced spacer -->
+
+        <button id="btn-register" class="auth-btn-primary">Create Account</button>
+        <button id="btn-show-login" class="auth-btn-secondary">Back to Login</button>
+        
+        <div id="auth-error-register" class="auth-error"></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fullscreen Loading Overlay (Greeting) -->
+<div id="loading-overlay" style="position: fixed; inset: 0; background: #030712; z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; opacity: 0; transition: opacity 0.5s ease; pointer-events: none;">
+  <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3)); border: 2px solid rgba(139, 92, 246, 0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 24px; box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); animation: logoPulse 2s infinite;">
+    <img id="greeting-avatar" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+    <span id="greeting-avatar-fallback" style="font-size: 40px; font-weight: bold; color: #a78bfa;">?</span>
+  </div>
+  <div id="greeting-text" style="font-size: 28px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #f8fafc, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px;">Доброе утро!</div>
+  <div style="font-size: 14px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+    <div style="width: 16px; height: 16px; border: 2px solid var(--accent-blue); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    Загрузка окружения...
+  </div>
+</div>
+
+<style>
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
+
+<div id="dashboard-view" style="display: none;">
 <div class="titlebar">
   <span class="titlebar-title">DPI Dashboard</span>
-  <div class="titlebar-controls">
+  <div class="titlebar-controls" style="display: flex; align-items: center; gap: 8px;">
+    <button class="titlebar-btn" id="btn-profile" title="Профиль аккаунта" onclick="document.getElementById('profile-modal').classList.add('open')" style="border-radius: 50%; padding: 0; width: 24px; height: 24px; overflow: hidden; display: flex !important; align-items: center; justify-content: center; background: rgba(139, 92, 246, 0.2); -webkit-app-region: no-drag; cursor: pointer; pointer-events: auto !important; position: relative; z-index: 1000;">
+      <img id="titlebar-avatar" src="" style="width: 100%; height: 100%; object-fit: cover; display: none; pointer-events: none;">
+      <span id="titlebar-avatar-fallback" style="font-size: 12px; font-weight: bold; color: #a78bfa; pointer-events: none;">?</span>
+    </button>
     <button class="titlebar-btn" id="btn-show-stats" title="Мониторинг сети" style="font-size: 14px;">📊</button>
     <button class="titlebar-btn" id="btn-hosts" title="DNS / Hosts Редиректор" style="font-size: 12px;">🌐</button>
     <button class="titlebar-btn" id="btn-app-settings" title="App Settings" style="font-size: 12px;">⚙️</button>
@@ -1208,6 +1837,54 @@
     <div class="log-empty-msg" id="log-empty">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M4 6h16M4 18h16"></path></svg>
       Waiting for process logs...
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal (Moved to end of body) -->
+<div class="modal-overlay" id="profile-modal" style="z-index: 999999;">
+  <div class="modal-content" style="width: 400px; position: relative; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+    <div class="modal-header">
+      <div class="modal-title">Профиль аккаунта</div>
+      <button class="icon-btn" id="profile-modal-close" onclick="document.getElementById('profile-modal').classList.remove('open')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- Avatar Section -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div style="position: relative; cursor: pointer;" id="profile-avatar-container" title="Изменить аватар">
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3)); border: 2px solid rgba(139, 92, 246, 0.5); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <img id="profile-modal-avatar" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+            <span id="profile-modal-avatar-fallback" style="font-size: 32px; font-weight: bold; color: #a78bfa;">?</span>
+          </div>
+          <div style="position: absolute; bottom: -4px; right: -4px; background: #8b5cf6; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5); border: 2px solid #0f172a;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          </div>
+          <input type="file" id="profile-avatar-input" accept="image/png, image/jpeg, image/gif, image/webp" style="display: none;">
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label>Никнейм</label>
+        <input type="text" id="profile-nickname-input" class="auth-input" placeholder="Введите ваш никнейм" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+      </div>
+
+      <div class="auth-input-group">
+        <label>Email аккаунта</label>
+        <input type="text" id="profile-email-input" class="auth-input" readonly style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); color: var(--text-secondary); cursor: not-allowed;">
+      </div>
+      
+      <div class="auth-input-group">
+        <label>Дата регистрации</label>
+        <input type="text" id="profile-date-input" class="auth-input" readonly style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); color: var(--text-secondary); cursor: not-allowed;">
+      </div>
+
+    </div>
+    <div class="modal-footer" style="display: flex; gap: 12px;">
+      <button class="toggle-btn" id="btn-logout-profile" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 20px; font-size: 11px; font-weight: 700;">ВЫЙТИ</button>
+      <button class="toggle-btn" id="profile-modal-save" style="background: var(--accent-blue-gradient); flex: 1; padding: 10px 20px; font-size: 13px;">Сохранить профиль</button>
     </div>
   </div>
 </div>
@@ -1655,7 +2332,7 @@
   <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
 </div>
 
-<script src="build/renderer.js"></script>
+<script type="module" src="build/renderer.js"></script>
 <!-- Network Stats Modal -->
 <div class="modal-overlay" id="stats-modal" style="z-index: 2500;">
   <div class="modal-content" style="width: 720px; max-width: 95vw; padding: 0; overflow: hidden; background: #0f172a;">
@@ -1717,6 +2394,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 </body>
 </html>
